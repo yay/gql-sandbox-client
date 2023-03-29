@@ -117,6 +117,7 @@ const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
     GET_DOG_PHOTO,
     {
       variables: { breed },
+      skip: false, // If `true`, the query is not executed. Not available with `useLazyQuery`.
       notifyOnNetworkStatusChange: true,
       errorPolicy: 'none', // default value (treat all GraphQL errors as runtime errors)
 

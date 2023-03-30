@@ -41,7 +41,8 @@ const useLoading = (): UseLoadingResult => {
   };
 };
 
-// Implement the `useLoading` hook that:
+// Potential interview question for a junior/mid-level candidate.
+// Implement the `useLoading` hook (similar to `useQuery` hook in GraphQL) that:
 // - takes 1 to 2 seconds to complete
 // - returns `true` for `loading` state while loading is in progress
 // - returns `false` when loading is complete

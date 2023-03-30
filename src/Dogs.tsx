@@ -139,7 +139,7 @@ const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
   // The `useLazyQuery` hook is perfect for executing queries in response to events besides component rendering.
   // Unlike with `useQuery`, when you call useLazyQuery, it does not immediately execute its associated query.
   // Instead, it returns a query function in its result tuple that you call whenever you're ready to execute the query.
-  const [getDogLazily, { loading: lazyLoading, error: lazyError, data: lazyData }] =
+  const [getDogPhoto, { loading: lazyLoading, error: lazyError, data: lazyData }] =
     useLazyQuery<DogPhotoData>(GET_DOG_PHOTO);
 
   // startPolling(500);
@@ -181,7 +181,7 @@ const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
       </p>
       {lazyData && <img src={lazyData.dog.displayImage} style={{ height: 100, width: 100 }} />}
       <p>
-        <button onClick={() => getDogLazily({ variables: { breed: 'bulldog' } })}>Get dog lazily</button>
+        <button onClick={() => getDogPhoto({ variables: { breed: 'bulldog' } })}>Get dog lazily</button>
       </p>
     </div>
   );

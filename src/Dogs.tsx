@@ -107,7 +107,7 @@ type DogPhotoData = {
   };
 };
 
-const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
+export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
   // It wouldn't be a good idea to pass these dynamic arguments directly in the query string,
   // because then our client-side code would need to dynamically manipulate the query string at runtime,
   // and serialize it into a GraphQL-specific format. Instead, GraphQL has a first-class way

@@ -10,6 +10,12 @@ const displayLocationsApolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// To setup TypeScript code generation from a GraphQL schema:
+//   yarn add -D @graphql-codegen/cli
+//               @graphql-codegen/typescript
+//               @graphql-codegen/typescript-operations
+//   npx graphql-code-generator init
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ApolloProvider client={displayLocationsApolloClient}>

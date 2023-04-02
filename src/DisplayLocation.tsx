@@ -5,13 +5,13 @@ import React, { FC } from 'react';
 // all while automatically updating your UI.
 import { useQuery, gql, ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
 
-const displayLocationsApolloClient = new ApolloClient({
+const client = new ApolloClient({
   uri: 'https://flyby-router-demo.herokuapp.com/', // URL of our GraphQL server
   cache: new InMemoryCache(), // cache query results after fetching them
 });
 
 // Plain JS Apollo Client query:
-displayLocationsApolloClient
+client
   .query({
     query: gql`
       query GetLocations {
@@ -87,7 +87,7 @@ export const DisplayLocations: FC = () => {
 // in your component tree.
 export const DisplayLocationsContainer: FC = () => {
   return (
-    <ApolloProvider client={displayLocationsApolloClient}>
+    <ApolloProvider client={client}>
       <DisplayLocations />
     </ApolloProvider>
   );

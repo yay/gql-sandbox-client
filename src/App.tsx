@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { DogsContainer } from './Dogs';
-// import { DisplayLocationsContainer } from './DisplayLocation';
 import { DogsGeneratedTypesContainer } from './DogsGeneratedTypes';
 import { DogsGeneratedHooksContainer } from './DogsGeneratedHooks';
+import { DisplayLocationsContainer } from '../DisplayLocation';
 
 function App() {
   return (

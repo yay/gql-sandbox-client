@@ -1,3 +1,7 @@
+// This file has been moved out of the `src` folder not to interfere with the
+// `documents: ['src/**/*.tsx']` config inside `codegen.ts`, because the locations query
+// specified here cannot be found in the schema.
+
 // https://www.apollographql.com/docs/react/get-started/
 import React, { FC } from 'react';
 // Apollo Client is a comprehensive state management library for JavaScript that enables you
@@ -40,11 +44,11 @@ const GET_LOCATIONS = gql`
 
 type QueryData = {
   locations: {
-    id: string,
-    name: string,
-    description: string,
-    photo: string,
-  }[],
+    id: string;
+    name: string;
+    description: string;
+    photo: string;
+  }[];
 };
 
 export const DisplayLocations: FC = () => {
@@ -56,7 +60,7 @@ export const DisplayLocations: FC = () => {
 
   // Apollo Client automatically tracks a query's loading and error states,
   // which are reflected in the loading and error properties.
-  const { loading, error, data } = useQuery < QueryData > GET_LOCATIONS;
+  const { loading, error, data } = useQuery<QueryData>(GET_LOCATIONS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;

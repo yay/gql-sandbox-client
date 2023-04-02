@@ -7,14 +7,8 @@
 // knows exactly which data it wants to fetch.
 
 import React, { FC, useState } from 'react';
-import { DocumentNode, NetworkStatus, gql, useQuery, useLazyQuery } from '@apollo/client';
-import {
-  Query,
-  QueryDogArgs,
-  useGetDogPhotoLazyQuery,
-  useGetDogPhotoQuery,
-  useGetDogsQuery,
-} from './generated/graphql';
+import { NetworkStatus } from '@apollo/client';
+import { useGetDogPhotoLazyQuery, useGetDogPhotoQuery, useGetDogsQuery } from './generated/graphql';
 
 type DogsGeneratedHooksProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;

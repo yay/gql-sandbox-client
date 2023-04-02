@@ -51,25 +51,6 @@ export const Dogs: FC<DogsProps> = ({ onDogSelected }) => {
   );
 };
 
-export const DogsContainer: FC = () => {
-  const [selectedDog, setSelectedDog] = useState<string | undefined>(undefined);
-
-  const onDogSelected: React.ChangeEventHandler<HTMLSelectElement> = ({ target }) => {
-    setSelectedDog(target.value);
-  };
-
-  return (
-    <div>
-      <Dogs onDogSelected={onDogSelected} />
-      {selectedDog && (
-        <p>
-          <DogPhoto breed={selectedDog} />
-        </p>
-      )}
-    </div>
-  );
-};
-
 // Sample query:
 //
 //   query Dog {
@@ -134,14 +115,6 @@ export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
     }
   );
 
-  // When React renders a component that calls `useQuery`, Apollo Client automatically executes the corresponding query.
-  // But what if you want to execute a query in response to a different event, such as a user clicking a button?
-  // The `useLazyQuery` hook is perfect for executing queries in response to events besides component rendering.
-  // Unlike with `useQuery`, when you call useLazyQuery, it does not immediately execute its associated query.
-  // Instead, it returns a query function in its result tuple that you call whenever you're ready to execute the query.
-  const [getDogPhoto, { loading: lazyLoading, error: lazyError, data: lazyData }] =
-    useLazyQuery<DogPhotoData>(GET_DOG_PHOTO);
-
   // startPolling(500);
 
   // Refetching enables you to refresh query results in response to a particular user action,
@@ -179,10 +152,60 @@ export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
           Refetch new breed!
         </button>
       </p>
-      {lazyData && <img src={lazyData.dog.displayImage} style={{ height: 100, width: 100 }} />}
+    </div>
+  );
+};
+
+export const LazyDogPhoto: FC<DogPhotoProps> = ({ breed }) => {
+  // When React renders a component that calls `useQuery`, Apollo Client automatically executes the corresponding query.
+  // But what if you want to execute a query in response to a different event, such as a user clicking a button?
+  // The `useLazyQuery` hook is perfect for executing queries in response to events besides component rendering.
+  // Unlike with `useQuery`, when you call useLazyQuery, it does not immediately execute its associated query.
+  // Instead, it returns a query function in its result tuple that you call whenever you're ready to execute the query.
+  const [getDogPhoto, { loading, error, data, networkStatus }] = useLazyQuery<DogPhotoData>(GET_DOG_PHOTO);
+
+  if (loading) {
+    if (networkStatus === NetworkStatus.refetch) {
+      return <p>Refetching...</p>;
+    }
+    return <p>Loading...</p>;
+  }
+  if (error) return <p>{`Error! ${error}`}</p>;
+
+  return (
+    <div>
+      {data?.dog?.displayImage ? (
+        <img src={data.dog.displayImage} style={{ height: 100, width: 100 }} />
+      ) : (
+        'No dog image data'
+      )}
       <p>
-        <button onClick={() => getDogPhoto({ variables: { breed: 'bulldog' } })}>Get dog lazily</button>
+        <button onClick={() => getDogPhoto({ variables: { breed } })}>Get dog lazily</button>
       </p>
+    </div>
+  );
+};
+
+export const DogsContainer: FC = () => {
+  const [selectedDog, setSelectedDog] = useState<string | undefined>(undefined);
+
+  const onDogSelected: React.ChangeEventHandler<HTMLSelectElement> = ({ target }) => {
+    setSelectedDog(target.value);
+  };
+
+  return (
+    <div>
+      <Dogs onDogSelected={onDogSelected} />
+      {selectedDog && (
+        <div>
+          <p>
+            <DogPhoto breed={selectedDog} />
+          </p>
+          <p>
+            <LazyDogPhoto breed={selectedDog} />
+          </p>
+        </div>
+      )}
     </div>
   );
 };

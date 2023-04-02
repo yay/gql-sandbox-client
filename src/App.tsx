@@ -7,12 +7,12 @@ import { DogsGeneratedContainer } from './DogsGenerated';
 function App() {
   return (
     <div className="App">
-      <div className="card">
-        <div>
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+        <div className="card">
           <p>Manual</p>
           <DogsContainer />
         </div>
-        <div>
+        <div className="card">
           <p>Generated</p>
           <DogsGeneratedContainer />
         </div>

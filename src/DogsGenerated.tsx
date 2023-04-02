@@ -1,7 +1,14 @@
+// This file contains the same code as the Dogs.tsx, but uses types generated from server's
+// GraphQL schema, instead of definiting its own types. This allowed to catch a few type safety
+// issues not obvious in the Dogs.tsx, such as non-optinal 'breed' parameter for `GET_DOG_PHOTO`
+// query and potentially null `data?.dog?.displayImage` in the returned data.
+
+// The queries still have to be manually constructed by the client because only the client
+// knows exactly which data it wants to fetch.
+
 import React, { FC, useState } from 'react';
 import { DocumentNode, NetworkStatus, gql, useQuery, useLazyQuery } from '@apollo/client';
-import { Query } from './generated/graphql';
-import { DogPhoto } from './Dogs';
+import { Query, QueryDogArgs } from './generated/graphql';
 
 type DogsDogsGeneratedProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;
@@ -50,8 +57,8 @@ type DogPhotoProps = {
 };
 
 export const DogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
-  const { loading, error, data, refetch, networkStatus } = useQuery<Query>(GET_DOG_PHOTO, {
-    variables: { breed },
+  const { loading, error, data, refetch, networkStatus } = useQuery<Query, QueryDogArgs>(GET_DOG_PHOTO, {
+    variables: { breed: breed || '' },
     notifyOnNetworkStatusChange: true,
   });
 
@@ -82,7 +89,7 @@ export const DogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
 };
 
 export const LazyDogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
-  const [getDogPhoto, { loading, error, data, networkStatus }] = useLazyQuery<Query>(GET_DOG_PHOTO);
+  const [getDogPhoto, { loading, error, data, networkStatus }] = useLazyQuery<Query, QueryDogArgs>(GET_DOG_PHOTO);
 
   if (loading) {
     if (networkStatus === NetworkStatus.refetch) {
@@ -100,7 +107,7 @@ export const LazyDogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
         'No dog image data'
       )}
       <p>
-        <button onClick={() => getDogPhoto({ variables: { breed } })}>Get dog lazily</button>
+        <button onClick={() => getDogPhoto({ variables: { breed: breed || '' } })}>Get dog lazily</button>
       </p>
     </div>
   );

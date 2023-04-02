@@ -10,7 +10,7 @@ import React, { FC, useState } from 'react';
 import { DocumentNode, NetworkStatus, gql, useQuery, useLazyQuery } from '@apollo/client';
 import { Query, QueryDogArgs } from './generated/graphql';
 
-type DogsDogsGeneratedProps = {
+type DogsGeneratedTypesProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;
 };
 
@@ -23,7 +23,7 @@ const GET_DOGS: DocumentNode = gql`
   }
 `;
 
-export const DogsGenerated: FC<DogsDogsGeneratedProps> = ({ onDogSelected }) => {
+export const DogsGeneratedTypes: FC<DogsGeneratedTypesProps> = ({ onDogSelected }) => {
   const { loading, error, data } = useQuery<Query>(GET_DOGS);
 
   if (loading) return <p>Loading...</p>;
@@ -52,11 +52,11 @@ const GET_DOG_PHOTO: DocumentNode = gql`
   }
 `;
 
-type DogPhotoProps = {
+type DogPhotoGeneratedTypesProps = {
   breed?: string;
 };
 
-export const DogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
+export const DogPhotoGeneratedTypes: FC<DogPhotoGeneratedTypesProps> = ({ breed }) => {
   const { loading, error, data, refetch, networkStatus } = useQuery<Query, QueryDogArgs>(GET_DOG_PHOTO, {
     variables: { breed: breed || '' },
     notifyOnNetworkStatusChange: true,
@@ -88,7 +88,7 @@ export const DogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
   );
 };
 
-export const LazyDogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
+export const LazyDogPhotoGeneratedTypes: FC<DogPhotoGeneratedTypesProps> = ({ breed }) => {
   const [getDogPhoto, { loading, error, data, networkStatus }] = useLazyQuery<Query, QueryDogArgs>(GET_DOG_PHOTO);
 
   if (loading) {
@@ -113,7 +113,7 @@ export const LazyDogPhotoGenerated: FC<DogPhotoProps> = ({ breed }) => {
   );
 };
 
-export const DogsGeneratedContainer: FC = () => {
+export const DogsGeneratedTypesContainer: FC = () => {
   const [selectedDog, setSelectedDog] = useState<string | undefined>(undefined);
 
   const onDogSelected: React.ChangeEventHandler<HTMLSelectElement> = ({ target }) => {
@@ -122,14 +122,14 @@ export const DogsGeneratedContainer: FC = () => {
 
   return (
     <div>
-      <DogsGenerated onDogSelected={onDogSelected} />
+      <DogsGeneratedTypes onDogSelected={onDogSelected} />
       {selectedDog && (
         <div>
           <p>
-            <DogPhotoGenerated breed={selectedDog} />
+            <DogPhotoGeneratedTypes breed={selectedDog} />
           </p>
           <p>
-            <LazyDogPhotoGenerated breed={selectedDog} />
+            <LazyDogPhotoGeneratedTypes breed={selectedDog} />
           </p>
         </div>
       )}

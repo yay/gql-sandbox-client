@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { DogsContainer } from './Dogs';
-import { DisplayLocationsContainer } from './DisplayLocation';
-import { DogsGeneratedContainer } from './DogsGenerated';
+// import { DisplayLocationsContainer } from './DisplayLocation';
+import { DogsGeneratedTypesContainer } from './DogsGeneratedTypes';
+import { DogsGeneratedHooksContainer } from './DogsGeneratedHooks';
 
 function App() {
   return (
@@ -13,8 +14,12 @@ function App() {
           <DogsContainer />
         </div>
         <div className="card">
-          <p>Generated</p>
-          <DogsGeneratedContainer />
+          <p>Generated Types</p>
+          <DogsGeneratedTypesContainer />
+        </div>
+        <div className="card">
+          <p>Generated Hooks</p>
+          <DogsGeneratedHooksContainer />
         </div>
         {/* <DisplayLocationsContainer /> */}
       </div>

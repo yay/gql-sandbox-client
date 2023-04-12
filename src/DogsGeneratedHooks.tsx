@@ -7,8 +7,15 @@
 // knows exactly which data it wants to fetch.
 
 import React, { FC, useState } from 'react';
-import { NetworkStatus } from '@apollo/client';
-import { useGetDogPhotoLazyQuery, useGetDogPhotoQuery, useGetDogsQuery } from './generated/graphql';
+import { NetworkStatus, gql } from '@apollo/client';
+import {
+  NetworkingListEntriesSortField,
+  SortOrder,
+  useGetDogPhotoLazyQuery,
+  useGetDogPhotoQuery,
+  useGetDogsQuery,
+  useGetNetworkingListQuery,
+} from './generated/graphql';
 
 type DogsGeneratedHooksProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;
@@ -32,6 +39,42 @@ export const DogsGeneratedHooks: FC<DogsGeneratedHooksProps> = ({ onDogSelected 
       )}
     </select>
   );
+};
+
+const GET_NETWORK_LIST = gql`
+  query GetNetworkingList($page: Int, $limit: Int, $sort: [NetworkingListEntriesSort!]) {
+    getNetworkingList {
+      id
+      name
+      networkingListEntriesData(page: $page, limit: $limit, sort: $sort) {
+        data {
+          createdDate
+        }
+        totalCount
+      }
+    }
+  }
+`;
+
+export const NetworkListGeneratedHooks: FC = () => {
+  const { loading, error, data } = useGetNetworkingListQuery({
+    variables: {
+      page: 0,
+      limit: 10,
+      sort: [
+        {
+          field: NetworkingListEntriesSortField.CreatedDate,
+          order: SortOrder.Desc,
+        },
+      ],
+    },
+  });
+  console.log('loading:', loading, 'error:', error, 'data:', data);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{`Error! ${error.message}`}</p>;
+
+  return <div>{data?.getNetworkingList?.name || 'Nothing to see here'}</div>;
 };
 
 type DogPhotoGeneratedHooksProps = {
@@ -102,19 +145,21 @@ export const DogsGeneratedHooksContainer: FC = () => {
     setSelectedDog(target.value);
   };
 
-  return (
-    <div>
-      <DogsGeneratedHooks onDogSelected={onDogSelected} />
-      {selectedDog && (
-        <div>
-          <p>
-            <DogPhotoGeneratedHooks breed={selectedDog} />
-          </p>
-          <p>
-            <LazyDogPhotoGeneratedHooks breed={selectedDog} />
-          </p>
-        </div>
-      )}
-    </div>
-  );
+  // return (
+  //   <div>
+  //     <DogsGeneratedHooks onDogSelected={onDogSelected} />
+  //     {selectedDog && (
+  //       <div>
+  //         <p>
+  //           <DogPhotoGeneratedHooks breed={selectedDog} />
+  //         </p>
+  //         <p>
+  //           <LazyDogPhotoGeneratedHooks breed={selectedDog} />
+  //         </p>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
+
+  return <NetworkListGeneratedHooks />;
 };

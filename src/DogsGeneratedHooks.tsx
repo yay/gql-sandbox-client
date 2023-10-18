@@ -41,6 +41,7 @@ export const DogsGeneratedHooks: FC<DogsGeneratedHooksProps> = ({ onDogSelected 
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GET_NETWORK_LIST = gql`
   query GetNetworkingList($page: Int, $limit: Int, $sort: [NetworkingListEntriesSort!]) {
     getNetworkingList {
@@ -145,21 +146,21 @@ export const DogsGeneratedHooksContainer: FC = () => {
     setSelectedDog(target.value);
   };
 
-  // return (
-  //   <div>
-  //     <DogsGeneratedHooks onDogSelected={onDogSelected} />
-  //     {selectedDog && (
-  //       <div>
-  //         <p>
-  //           <DogPhotoGeneratedHooks breed={selectedDog} />
-  //         </p>
-  //         <p>
-  //           <LazyDogPhotoGeneratedHooks breed={selectedDog} />
-  //         </p>
-  //       </div>
-  //     )}
-  //   </div>
-  // );
+  return (
+    <div>
+      <DogsGeneratedHooks onDogSelected={onDogSelected} />
+      {selectedDog && (
+        <div>
+          <p>
+            <DogPhotoGeneratedHooks breed={selectedDog} />
+          </p>
+          <p>
+            <LazyDogPhotoGeneratedHooks breed={selectedDog} />
+          </p>
+        </div>
+      )}
+    </div>
+  );
 
   return <NetworkListGeneratedHooks />;
 };

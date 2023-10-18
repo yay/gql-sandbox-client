@@ -4,6 +4,7 @@ import App from './App';
 import './index.css';
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { DesignProvider } from './Theme';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
@@ -20,7 +21,9 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <DesignProvider>
+        <App />
+      </DesignProvider>
     </ApolloProvider>
   </React.StrictMode>
 );

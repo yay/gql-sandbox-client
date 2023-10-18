@@ -5,20 +5,22 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type Actor = {
   __typename?: 'Actor';
   movies?: Maybe<Array<Maybe<Movie>>>;
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
 };
 
 export enum CacheControlScope {
@@ -29,30 +31,35 @@ export enum CacheControlScope {
 export type Director = {
   __typename?: 'Director';
   movies?: Maybe<Array<Maybe<Movie>>>;
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
 };
 
 export type Dog = {
   __typename?: 'Dog';
-  breed: Scalars['String'];
-  displayImage?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  breed: Scalars['String']['output'];
+  displayImage?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   images?: Maybe<Array<Maybe<Image>>>;
-  subbreeds?: Maybe<Array<Maybe<Scalars['String']>>>;
+  subbreeds?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+};
+
+export type Finance = {
+  __typename?: 'Finance';
+  crumb?: Maybe<Scalars['String']['output']>;
 };
 
 export type Image = {
   __typename?: 'Image';
-  id: Scalars['String'];
-  url: Scalars['String'];
+  id: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type Movie = {
   __typename?: 'Movie';
   cast?: Maybe<Array<Maybe<Actor>>>;
   director: Director;
-  title: Scalars['String'];
-  year?: Maybe<Scalars['Int']>;
+  title: Scalars['String']['output'];
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 export type Mutation = {
@@ -62,30 +69,30 @@ export type Mutation = {
 
 
 export type MutationAddMovieArgs = {
-  director: Scalars['String'];
-  title: Scalars['String'];
-  year?: InputMaybe<Scalars['Int']>;
+  director: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type NetworkingList = {
   __typename?: 'NetworkingList';
-  id?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
+  id?: Maybe<Scalars['ID']['output']>;
+  name: Scalars['String']['output'];
   networkingListEntriesData: NetworkingListEntriesData;
 };
 
 
 export type NetworkingListNetworkingListEntriesDataArgs = {
-  limit?: InputMaybe<Scalars['Int']>;
-  page?: InputMaybe<Scalars['Int']>;
-  search?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Array<NetworkingListEntriesSort>>;
 };
 
 export type NetworkingListEntriesData = {
   __typename?: 'NetworkingListEntriesData';
   data?: Maybe<Array<NetworkingListEntry>>;
-  totalCount: Scalars['Int'];
+  totalCount: Scalars['Int']['output'];
 };
 
 export type NetworkingListEntriesSort = {
@@ -101,19 +108,20 @@ export enum NetworkingListEntriesSortField {
 
 export type NetworkingListEntry = {
   __typename?: 'NetworkingListEntry';
-  createdDate?: Maybe<Scalars['String']>;
+  createdDate?: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
   __typename?: 'Query';
   dog?: Maybe<Dog>;
   dogs?: Maybe<Array<Maybe<Dog>>>;
+  finance?: Maybe<Finance>;
   getNetworkingList: NetworkingList;
 };
 
 
 export type QueryDogArgs = {
-  breed: Scalars['String'];
+  breed: Scalars['String']['input'];
 };
 
 export enum SortOrder {
@@ -127,15 +135,15 @@ export type GetDogsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetDogsQuery = { __typename?: 'Query', dogs?: Array<{ __typename?: 'Dog', id: string, breed: string } | null> | null };
 
 export type GetDogPhotoQueryVariables = Exact<{
-  breed: Scalars['String'];
+  breed: Scalars['String']['input'];
 }>;
 
 
 export type GetDogPhotoQuery = { __typename?: 'Query', dog?: { __typename?: 'Dog', id: string, displayImage?: string | null } | null };
 
 export type GetNetworkingListQueryVariables = Exact<{
-  page?: InputMaybe<Scalars['Int']>;
-  limit?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<Array<NetworkingListEntriesSort> | NetworkingListEntriesSort>;
 }>;
 

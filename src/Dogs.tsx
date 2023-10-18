@@ -94,7 +94,7 @@ export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
   // and serialize it into a GraphQL-specific format. Instead, GraphQL has a first-class way
   // to factor dynamic values out of the query, and pass them as a separate dictionary.
   // These values are called variables.
-  const { loading, error, data, startPolling, stopPolling, refetch, networkStatus } = useQuery<DogPhotoData>(
+  const { loading, error, data, /* startPolling, stopPolling, */ refetch, networkStatus } = useQuery<DogPhotoData>(
     GET_DOG_PHOTO,
     {
       variables: { breed },

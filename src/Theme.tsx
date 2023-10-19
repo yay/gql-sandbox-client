@@ -104,19 +104,19 @@ const DesignProvider: FC<CustomThemeContextProps> = (props) => {
   );
 };
 
-const cssVarsTheme = extendTheme({
-  cssVarPrefix: 'vk',
-  colorSchemes: {
-    light: {
-      palette: {
-        background: {
-          paper: 'red',
-        },
-      },
-    },
-    dark: {},
-  },
-});
+// const cssVarsTheme = extendTheme({
+//   cssVarPrefix: 'vk',
+//   colorSchemes: {
+//     light: {
+//       palette: {
+//         background: {
+//           paper: 'red',
+//         },
+//       },
+//     },
+//     dark: {},
+//   },
+// });
 
 /**
  * Experimental CSS Theme variables:
@@ -127,8 +127,8 @@ const cssVarsTheme = extendTheme({
  *     const { mode, setMode, systemMode } = useColorScheme();
  *     <Button onClick={() => setMode('light')}>Light Mode</Button>
  */
-export const CssVarsBasic: FC = () => {
-  return <CssVarsProvider theme={cssVarsTheme}>Hello world</CssVarsProvider>;
-};
+// export const CssVarsBasic: FC = () => {
+//   return <CssVarsProvider theme={cssVarsTheme}>Hello world</CssVarsProvider>;
+// };
 
 export { DesignProvider, useDesignContext };

@@ -5,6 +5,7 @@ import './index.css';
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { DesignProvider } from './Theme';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
@@ -13,16 +14,24 @@ const client = new ApolloClient({
 });
 
 // To setup TypeScript code generation from a GraphQL schema:
-//   yarn add -D @graphql-codegen/cli
-//               @graphql-codegen/typescript
-//               @graphql-codegen/typescript-operations
+//   npm i -D @graphql-codegen/cli
+//            @graphql-codegen/typescript
+//            @graphql-codegen/typescript-operations
 //   npx graphql-code-generator init
+
+// https://reactrouter.com/en/main/start/tutorial
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <DesignProvider>
-        <App />
+        <RouterProvider router={router} />
       </DesignProvider>
     </ApolloProvider>
   </React.StrictMode>

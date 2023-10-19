@@ -6,6 +6,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import { GridDemo } from './GridDemo';
+
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 
 function App() {
   const [date, setDate] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
@@ -45,6 +48,7 @@ function App() {
           <DatePicker label="Pick a date" value={date} onChange={(newDate) => setDate(newDate)} />
         </LocalizationProvider>
         {/* <CssVarsBasic /> */}
+        <GridDemo />
       </Grid>
     </Box>
   );

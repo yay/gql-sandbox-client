@@ -44,10 +44,40 @@ const useDesignContext = () => {
   return React.useContext(DesignContext);
 };
 
-const getPickerStyles = (): PickerComponents<Theme> => ({
-  MuiPickersToolbar: {},
+const getPickerStyles = (theme: Theme): PickerComponents<Theme> => ({
+  MuiPickersToolbar: {
+    styleOverrides: {
+      root: {
+        backgroundColor: 'red',
+      },
+    },
+  },
+  MuiDateField: {
+    defaultProps: {
+      sx: {
+        '& input': {},
+      },
+    },
+  },
   MuiDatePicker: {},
-  MuiDateCalendar: {},
+  MuiDateCalendar: {
+    styleOverrides: {
+      root: {
+        backgroundColor: 'red',
+        color: 'yellow',
+        '& .MuiPickersCalendarHeader-switchViewButton, .MuiPickersArrowSwitcher-button': {
+          color: 'white',
+        },
+        '& .MuiDayCalendar-weekDayLabel': {
+          color: 'yellow',
+          fontWeight: 'bold',
+        },
+        '& .MuiPickersDay-root': {
+          color: 'white',
+        },
+      },
+    },
+  },
   // MuiCalendarPicker: {},
 });
 
@@ -67,7 +97,9 @@ const DesignProvider: FC<CustomThemeContextProps> = (props) => {
   });
 
   const theme = useMemo(() => {
-    return createTheme(
+    let theme = createTheme(
+      // Only the first argument (`options`) is processed by the `createTheme` function,
+      // so we have to use `deepmerge` here.
       deepmerge(
         {
           // vars: {} // error - this is a private name for CSS theme variables
@@ -80,7 +112,6 @@ const DesignProvider: FC<CustomThemeContextProps> = (props) => {
           //   },
           // },
           components: {
-            ...getPickerStyles(),
             MuiAutocomplete: {
               defaultProps: {},
             },
@@ -89,6 +120,15 @@ const DesignProvider: FC<CustomThemeContextProps> = (props) => {
         themeOptions
       )
     );
+
+    // Using theme options to define other options.
+    theme = createTheme(theme, {
+      components: {
+        ...getPickerStyles(theme),
+      },
+    });
+
+    return theme;
   }, [themeOptions]);
 
   const designContextValue = useMemo(() => {

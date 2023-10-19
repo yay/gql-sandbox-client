@@ -33,7 +33,7 @@ function App() {
         backgroundColor: (theme) => theme.palette.background.paper, // type-safe unlike the above
       }}
     >
-      <Grid container direction={'column'}>
+      <Grid container direction={'column'} rowGap={2}>
         <Grid container direction={'row'} columnGap={2} alignItems={'center'}>
           <Button variant={'outlined'}>Material Button</Button>
           <BaseButton>Base Button</BaseButton>

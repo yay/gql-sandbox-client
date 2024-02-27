@@ -183,8 +183,13 @@ export function useGetDogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
         }
+export function useGetDogsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+        }
 export type GetDogsQueryHookResult = ReturnType<typeof useGetDogsQuery>;
 export type GetDogsLazyQueryHookResult = ReturnType<typeof useGetDogsLazyQuery>;
+export type GetDogsSuspenseQueryHookResult = ReturnType<typeof useGetDogsSuspenseQuery>;
 export type GetDogsQueryResult = Apollo.QueryResult<GetDogsQuery, GetDogsQueryVariables>;
 export const GetDogPhotoDocument = gql`
     query GetDogPhoto($breed: String!) {
@@ -211,7 +216,7 @@ export const GetDogPhotoDocument = gql`
  *   },
  * });
  */
-export function useGetDogPhotoQuery(baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>) {
+export function useGetDogPhotoQuery(baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> & ({ variables: GetDogPhotoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
       }
@@ -219,8 +224,13 @@ export function useGetDogPhotoLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
         }
+export function useGetDogPhotoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+        }
 export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
 export type GetDogPhotoLazyQueryHookResult = ReturnType<typeof useGetDogPhotoLazyQuery>;
+export type GetDogPhotoSuspenseQueryHookResult = ReturnType<typeof useGetDogPhotoSuspenseQuery>;
 export type GetDogPhotoQueryResult = Apollo.QueryResult<GetDogPhotoQuery, GetDogPhotoQueryVariables>;
 export const GetNetworkingListDocument = gql`
     query GetNetworkingList($page: Int, $limit: Int, $sort: [NetworkingListEntriesSort!]) {
@@ -263,6 +273,11 @@ export function useGetNetworkingListLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(GetNetworkingListDocument, options);
         }
+export function useGetNetworkingListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(GetNetworkingListDocument, options);
+        }
 export type GetNetworkingListQueryHookResult = ReturnType<typeof useGetNetworkingListQuery>;
 export type GetNetworkingListLazyQueryHookResult = ReturnType<typeof useGetNetworkingListLazyQuery>;
+export type GetNetworkingListSuspenseQueryHookResult = ReturnType<typeof useGetNetworkingListSuspenseQuery>;
 export type GetNetworkingListQueryResult = Apollo.QueryResult<GetNetworkingListQuery, GetNetworkingListQueryVariables>;

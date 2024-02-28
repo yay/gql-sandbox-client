@@ -15,7 +15,7 @@ import {
   useGetDogPhotoQuery,
   useGetDogsQuery,
   useGetNetworkingListQuery,
-} from './generated/graphql';
+} from '../generated/graphql';
 
 type DogsGeneratedHooksProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;

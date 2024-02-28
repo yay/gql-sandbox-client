@@ -8,8 +8,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { GridDemo } from './GridDemo';
 
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-
 function App() {
   const [date, setDate] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
   const { setThemeOptions } = useDesignContext();

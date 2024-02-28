@@ -1,7 +1,7 @@
 import React from 'react';
-import { DogsContainer } from './Dogs';
-import { DogsGeneratedTypesContainer } from './DogsGeneratedTypes';
-import { DogsGeneratedHooksContainer } from './DogsGeneratedHooks';
+import { GraphQLDemo } from './gql-demo/GraphQLDemo';
+import { DogsGeneratedTypesContainer } from './gql-demo/DogsGeneratedTypes';
+import { DogsGeneratedHooksContainer } from './gql-demo/DogsGeneratedHooks';
 // import { DisplayLocationsContainer } from '../DisplayLocation';
 import './App.css';
 
@@ -11,7 +11,7 @@ export function GraphQLTest() {
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <div className="card">
           <p>Manual</p>
-          <DogsContainer />
+          <GraphQLDemo />
         </div>
         <div className="card">
           <p>Generated Types</p>

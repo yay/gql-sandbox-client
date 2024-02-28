@@ -10,11 +10,11 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
 };
 
 export type Actor = {
@@ -25,7 +25,7 @@ export type Actor = {
 
 export enum CacheControlScope {
   Private = 'PRIVATE',
-  Public = 'PUBLIC'
+  Public = 'PUBLIC',
 }
 
 export type Director = {
@@ -67,7 +67,6 @@ export type Mutation = {
   addMovie?: Maybe<Movie>;
 };
 
-
 export type MutationAddMovieArgs = {
   director: Scalars['String']['input'];
   title: Scalars['String']['input'];
@@ -80,7 +79,6 @@ export type NetworkingList = {
   name: Scalars['String']['output'];
   networkingListEntriesData: NetworkingListEntriesData;
 };
-
 
 export type NetworkingListNetworkingListEntriesDataArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -103,7 +101,7 @@ export type NetworkingListEntriesSort = {
 export enum NetworkingListEntriesSortField {
   CreatedDate = 'CREATED_DATE',
   Location = 'LOCATION',
-  Name = 'NAME'
+  Name = 'NAME',
 }
 
 export type NetworkingListEntry = {
@@ -119,27 +117,30 @@ export type Query = {
   getNetworkingList: NetworkingList;
 };
 
-
 export type QueryDogArgs = {
   breed: Scalars['String']['input'];
 };
 
 export enum SortOrder {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
-export type GetDogsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetDogsQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetDogsQuery = { __typename?: 'Query', dogs?: Array<{ __typename?: 'Dog', id: string, breed: string } | null> | null };
+export type GetDogsQuery = {
+  __typename?: 'Query';
+  dogs?: Array<{ __typename?: 'Dog'; id: string; breed: string } | null> | null;
+};
 
 export type GetDogPhotoQueryVariables = Exact<{
   breed: Scalars['String']['input'];
 }>;
 
-
-export type GetDogPhotoQuery = { __typename?: 'Query', dog?: { __typename?: 'Dog', id: string, displayImage?: string | null } | null };
+export type GetDogPhotoQuery = {
+  __typename?: 'Query';
+  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
+};
 
 export type GetNetworkingListQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -147,18 +148,28 @@ export type GetNetworkingListQueryVariables = Exact<{
   sort?: InputMaybe<Array<NetworkingListEntriesSort> | NetworkingListEntriesSort>;
 }>;
 
-
-export type GetNetworkingListQuery = { __typename?: 'Query', getNetworkingList: { __typename?: 'NetworkingList', id?: string | null, name: string, networkingListEntriesData: { __typename?: 'NetworkingListEntriesData', totalCount: number, data?: Array<{ __typename?: 'NetworkingListEntry', createdDate?: string | null }> | null } } };
-
+export type GetNetworkingListQuery = {
+  __typename?: 'Query';
+  getNetworkingList: {
+    __typename?: 'NetworkingList';
+    id?: string | null;
+    name: string;
+    networkingListEntriesData: {
+      __typename?: 'NetworkingListEntriesData';
+      totalCount: number;
+      data?: Array<{ __typename?: 'NetworkingListEntry'; createdDate?: string | null }> | null;
+    };
+  };
+};
 
 export const GetDogsDocument = gql`
-    query GetDogs {
-  dogs {
-    id
-    breed
+  query GetDogs {
+    dogs {
+      id
+      breed
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetDogsQuery__
@@ -176,29 +187,31 @@ export const GetDogsDocument = gql`
  * });
  */
 export function useGetDogsQuery(baseOptions?: Apollo.QueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+}
 export function useGetDogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-        }
-export function useGetDogsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+}
+export function useGetDogsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+}
 export type GetDogsQueryHookResult = ReturnType<typeof useGetDogsQuery>;
 export type GetDogsLazyQueryHookResult = ReturnType<typeof useGetDogsLazyQuery>;
 export type GetDogsSuspenseQueryHookResult = ReturnType<typeof useGetDogsSuspenseQuery>;
 export type GetDogsQueryResult = Apollo.QueryResult<GetDogsQuery, GetDogsQueryVariables>;
 export const GetDogPhotoDocument = gql`
-    query GetDogPhoto($breed: String!) {
-  dog(breed: $breed) {
-    id
-    displayImage
+  query GetDogPhoto($breed: String!) {
+    dog(breed: $breed) {
+      id
+      displayImage
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetDogPhotoQuery__
@@ -216,36 +229,43 @@ export const GetDogPhotoDocument = gql`
  *   },
  * });
  */
-export function useGetDogPhotoQuery(baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> & ({ variables: GetDogPhotoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-      }
-export function useGetDogPhotoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-        }
-export function useGetDogPhotoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-        }
+export function useGetDogPhotoQuery(
+  baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> &
+    ({ variables: GetDogPhotoQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+}
+export function useGetDogPhotoLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+}
+export function useGetDogPhotoSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+}
 export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
 export type GetDogPhotoLazyQueryHookResult = ReturnType<typeof useGetDogPhotoLazyQuery>;
 export type GetDogPhotoSuspenseQueryHookResult = ReturnType<typeof useGetDogPhotoSuspenseQuery>;
 export type GetDogPhotoQueryResult = Apollo.QueryResult<GetDogPhotoQuery, GetDogPhotoQueryVariables>;
 export const GetNetworkingListDocument = gql`
-    query GetNetworkingList($page: Int, $limit: Int, $sort: [NetworkingListEntriesSort!]) {
-  getNetworkingList {
-    id
-    name
-    networkingListEntriesData(page: $page, limit: $limit, sort: $sort) {
-      data {
-        createdDate
+  query GetNetworkingList($page: Int, $limit: Int, $sort: [NetworkingListEntriesSort!]) {
+    getNetworkingList {
+      id
+      name
+      networkingListEntriesData(page: $page, limit: $limit, sort: $sort) {
+        data {
+          createdDate
+        }
+        totalCount
       }
-      totalCount
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetNetworkingListQuery__
@@ -265,18 +285,30 @@ export const GetNetworkingListDocument = gql`
  *   },
  * });
  */
-export function useGetNetworkingListQuery(baseOptions?: Apollo.QueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(GetNetworkingListDocument, options);
-      }
-export function useGetNetworkingListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(GetNetworkingListDocument, options);
-        }
-export function useGetNetworkingListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(GetNetworkingListDocument, options);
-        }
+export function useGetNetworkingListQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(GetNetworkingListDocument, options);
+}
+export function useGetNetworkingListLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(
+    GetNetworkingListDocument,
+    options
+  );
+}
+export function useGetNetworkingListSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(
+    GetNetworkingListDocument,
+    options
+  );
+}
 export type GetNetworkingListQueryHookResult = ReturnType<typeof useGetNetworkingListQuery>;
 export type GetNetworkingListLazyQueryHookResult = ReturnType<typeof useGetNetworkingListLazyQuery>;
 export type GetNetworkingListSuspenseQueryHookResult = ReturnType<typeof useGetNetworkingListSuspenseQuery>;

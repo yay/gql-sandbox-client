@@ -8,7 +8,7 @@
 
 import React, { FC, useState } from 'react';
 import { DocumentNode, NetworkStatus, gql, useQuery, useLazyQuery } from '@apollo/client';
-import { Query, QueryDogArgs } from './generated/graphql';
+import { Query, QueryDogArgs } from '../generated/graphql';
 
 type DogsGeneratedTypesProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;

@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Chip, Grid, TextField } from '@mui/material';
+import { Autocomplete, Chip, Grid, TextField } from '@mui/material';
 import {
   DataGridPremium,
   GridActionsCellItem,

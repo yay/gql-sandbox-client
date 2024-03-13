@@ -13,7 +13,7 @@ import { DogPhotoLazy } from './DogPhotoLazy';
 //   }
 //
 
-export const GraphQLDemo: FC = () => {
+export const Manual: FC = () => {
   const [selectedDog, setSelectedDog] = useState<string | undefined>(undefined);
 
   const onDogSelected: React.ChangeEventHandler<HTMLSelectElement> = ({ target }) => {

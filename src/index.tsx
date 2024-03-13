@@ -6,10 +6,10 @@ import './index.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { DesignProvider } from './Theme';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { GraphQLDemo } from './gql-demo/GraphQLDemo';
+import Demo from './gql-demo';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000',
+  uri: 'http://localhost:4000', // our Apollo Server URL
   cache: new InMemoryCache(),
   connectToDevTools: true,
 });
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/gql-demo',
-    element: <GraphQLDemo />,
+    element: <Demo />,
   },
 ]);
 

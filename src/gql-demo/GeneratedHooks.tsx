@@ -1,27 +1,21 @@
 // This file contains the same code as the Dogs.tsx, but uses types generated from server's
-// GraphQL schema, instead of definiting its own types. This allowed to catch a few type safety
-// issues not obvious in the Dogs.tsx, such as non-optinal 'breed' parameter for `GET_DOG_PHOTO`
+// GraphQL schema, instead of defining its own types. This allowed to catch a few type safety
+// issues not obvious in the Dogs.tsx, such as non-optional 'breed' parameter for `GET_DOG_PHOTO`
 // query and potentially null `data?.dog?.displayImage` in the returned data.
 
 // The queries still have to be manually constructed by the client because only the client
 // knows exactly which data it wants to fetch.
 
 import React, { FC, useState } from 'react';
-import { NetworkStatus, gql } from '@apollo/client';
-import {
-  NetworkingListEntriesSortField,
-  SortOrder,
-  useGetDogPhotoLazyQuery,
-  useGetDogPhotoQuery,
-  useGetDogsQuery,
-  useGetNetworkingListQuery,
-} from '../generated/graphql';
+import { NetworkStatus } from '@apollo/client';
+import { useGetDogPhotoLazyQuery, useGetDogPhotoQuery, useGetDogsQuery } from '../generated/graphql';
+import { Image } from './manual/Image';
 
 type DogsGeneratedHooksProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;
 };
 
-export const DogsGeneratedHooks: FC<DogsGeneratedHooksProps> = ({ onDogSelected }) => {
+export const GeneratedHooks: FC<DogsGeneratedHooksProps> = ({ onDogSelected }) => {
   const { loading, error, data } = useGetDogsQuery();
 
   if (loading) return <p>Loading...</p>;
@@ -39,43 +33,6 @@ export const DogsGeneratedHooks: FC<DogsGeneratedHooksProps> = ({ onDogSelected 
       )}
     </select>
   );
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const GET_NETWORK_LIST = gql`
-  query GetNetworkingList($page: Int, $limit: Int, $sort: [NetworkingListEntriesSort!]) {
-    getNetworkingList {
-      id
-      name
-      networkingListEntriesData(page: $page, limit: $limit, sort: $sort) {
-        data {
-          createdDate
-        }
-        totalCount
-      }
-    }
-  }
-`;
-
-export const NetworkListGeneratedHooks: FC = () => {
-  const { loading, error, data } = useGetNetworkingListQuery({
-    variables: {
-      page: 0,
-      limit: 10,
-      sort: [
-        {
-          field: NetworkingListEntriesSortField.CreatedDate,
-          order: SortOrder.Desc,
-        },
-      ],
-    },
-  });
-  console.log('loading:', loading, 'error:', error, 'data:', data);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{`Error! ${error.message}`}</p>;
-
-  return <div>{data?.getNetworkingList?.name || 'Nothing to see here'}</div>;
 };
 
 type DogPhotoGeneratedHooksProps = {
@@ -100,7 +57,7 @@ export const DogPhotoGeneratedHooks: FC<DogPhotoGeneratedHooksProps> = ({ breed 
 
   return (
     <div>
-      <img src={data.dog.displayImage} style={{ height: 100, width: 100 }} />
+      <Image src={data.dog.displayImage} />
       <p>
         <button
           onClick={() => {
@@ -127,11 +84,7 @@ export const LazyDogPhotoGeneratedHooks: FC<DogPhotoGeneratedHooksProps> = ({ br
 
   return (
     <div>
-      {data?.dog?.displayImage ? (
-        <img src={data.dog.displayImage} style={{ height: 100, width: 100 }} />
-      ) : (
-        'No dog image data'
-      )}
+      {data?.dog?.displayImage ? <Image src={data.dog.displayImage} /> : 'No dog image data'}
       <p>
         <button onClick={() => getDogPhoto({ variables: { breed: breed || '' } })}>Get dog lazily</button>
       </p>
@@ -148,7 +101,7 @@ export const DogsGeneratedHooksContainer: FC = () => {
 
   return (
     <div>
-      <DogsGeneratedHooks onDogSelected={onDogSelected} />
+      <GeneratedHooks onDogSelected={onDogSelected} />
       {selectedDog && (
         <div>
           <p>
@@ -161,6 +114,4 @@ export const DogsGeneratedHooksContainer: FC = () => {
       )}
     </div>
   );
-
-  return <NetworkListGeneratedHooks />;
 };

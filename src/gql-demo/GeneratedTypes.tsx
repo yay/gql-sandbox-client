@@ -1,6 +1,6 @@
 // This file contains the same code as the Dogs.tsx, but uses types generated from server's
-// GraphQL schema, instead of definiting its own types. This allowed to catch a few type safety
-// issues not obvious in the Dogs.tsx, such as non-optinal 'breed' parameter for `GET_DOG_PHOTO`
+// GraphQL schema, instead of defining its own types. This allowed to catch a few type safety
+// issues not obvious in the Dogs.tsx, such as non-optional 'breed' parameter for `GET_DOG_PHOTO`
 // query and potentially null `data?.dog?.displayImage` in the returned data.
 
 // The queries still have to be manually constructed by the client because only the client
@@ -9,21 +9,14 @@
 import React, { FC, useState } from 'react';
 import { DocumentNode, NetworkStatus, gql, useQuery, useLazyQuery } from '@apollo/client';
 import { Query, QueryDogArgs } from '../generated/graphql';
+import { GET_DOGS } from './manual/queries';
+import { Image } from './manual/Image';
 
 type DogsGeneratedTypesProps = {
   onDogSelected: React.ChangeEventHandler<HTMLSelectElement>;
 };
 
-const GET_DOGS: DocumentNode = gql`
-  query GetDogs {
-    dogs {
-      id
-      breed
-    }
-  }
-`;
-
-export const DogsGeneratedTypes: FC<DogsGeneratedTypesProps> = ({ onDogSelected }) => {
+export const GeneratedTypes: FC<DogsGeneratedTypesProps> = ({ onDogSelected }) => {
   const { loading, error, data } = useQuery<Query>(GET_DOGS);
 
   if (loading) return <p>Loading...</p>;
@@ -32,13 +25,11 @@ export const DogsGeneratedTypes: FC<DogsGeneratedTypesProps> = ({ onDogSelected 
 
   return (
     <select name="dog" onChange={onDogSelected}>
-      {data.dogs.map((dog) =>
-        dog ? (
-          <option key={dog.id} value={dog.breed}>
-            {dog.breed}
-          </option>
-        ) : null
-      )}
+      {data.dogs.map((dog) => (
+        <option key={dog.id} value={dog.breed}>
+          {dog.breed}
+        </option>
+      ))}
     </select>
   );
 };
@@ -74,7 +65,7 @@ export const DogPhotoGeneratedTypes: FC<DogPhotoGeneratedTypesProps> = ({ breed 
 
   return (
     <div>
-      <img src={data.dog.displayImage} style={{ height: 100, width: 100 }} />
+      <Image src={data.dog.displayImage} />
       <p>
         <button
           onClick={() => {
@@ -101,11 +92,7 @@ export const LazyDogPhotoGeneratedTypes: FC<DogPhotoGeneratedTypesProps> = ({ br
 
   return (
     <div>
-      {data?.dog?.displayImage ? (
-        <img src={data.dog.displayImage} style={{ height: 100, width: 100 }} />
-      ) : (
-        'No dog image data'
-      )}
+      {data?.dog?.displayImage ? <Image src={data.dog.displayImage} /> : 'No dog image data'}
       <p>
         <button onClick={() => getDogPhoto({ variables: { breed: breed || '' } })}>Get dog lazily</button>
       </p>
@@ -122,7 +109,7 @@ export const DogsGeneratedTypesContainer: FC = () => {
 
   return (
     <div>
-      <DogsGeneratedTypes onDogSelected={onDogSelected} />
+      <GeneratedTypes onDogSelected={onDogSelected} />
       {selectedDog && (
         <div>
           <p>

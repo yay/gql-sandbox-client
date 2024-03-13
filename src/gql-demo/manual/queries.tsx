@@ -1,5 +1,26 @@
 import { DocumentNode, gql } from '@apollo/client';
 
+// https://www.apollographql.com/docs/react/data/queries/
+// https://www.apollographql.com/docs/react/data/operation-best-practices/
+// https://graphql.org/learn/queries/
+
+/**
+ * [1] Fields.
+ *
+ * At its simplest, GraphQL is about asking for specific fields on objects.
+ * Here `query` is operation type and `GetDogs` is operation name.
+ * Both the operation name and the `query` keyword can be omitted, but it's a bad practice.
+ * The operation type is either `query`, `mutation`, or `subscription`.
+ */
+export const GET_DOGS: DocumentNode = gql`
+  query GetDogs {
+    dogs {
+      id
+      breed
+    }
+  }
+`;
+
 /**
  * [2] Arguments.
  *

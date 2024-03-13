@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { NetworkStatus, useQuery } from '@apollo/client';
-import { DogPhotoData, DogPhotoProps } from './DogPhoto.types';
-import { GET_DOG_PHOTO } from './DogPhotoQuery';
+import { DogPhotoQueryData, DogPhotoProps } from './types';
+import { GET_DOG_PHOTO } from './queries';
+import { Image } from './Image';
 
 /*
  * Whenever Apollo Client fetches query results from your server,
@@ -13,7 +14,7 @@ import { GET_DOG_PHOTO } from './DogPhotoQuery';
 export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
   // [4] Passing variables. Query options.
 
-  const { loading, error, data, startPolling, stopPolling, refetch, networkStatus } = useQuery<DogPhotoData>(
+  const { loading, error, data, startPolling, stopPolling, refetch, networkStatus } = useQuery<DogPhotoQueryData>(
     GET_DOG_PHOTO,
     {
       variables: { breed },
@@ -30,7 +31,7 @@ export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
 
       // pollInterval: 500, // to start polling right away, without a call to `startPolling`
       /**
-       * Sometimes, you want to make sure that your query's cached data is up to date with your server's data.
+       * Sometimes, you want to make sure that your query's cached data is up-to-date with your server's data.
        * Apollo Client supports two strategies for this: polling and refetching.
        * Polling provides near-real-time synchronization with your server by executing your query periodically
        * at a specified interval.
@@ -63,8 +64,8 @@ export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
 
   return (
     <div>
-      <img src={data.dog.displayImage} style={{ height: 100, width: 100 }} />
-      <p>
+      <Image src={data.dog.displayImage} />
+      <p style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
         <button
           onClick={() => {
             refetch();

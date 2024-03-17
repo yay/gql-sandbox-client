@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { NetworkStatus, useQuery } from '@apollo/client';
-import { DogPhotoQueryData, DogPhotoProps } from './types';
+import { useQuery } from '@apollo/client';
+import { DogPhotoQueryData } from './types';
 import { GET_DOG_PHOTO } from './queries';
-import { Image } from './Image';
+import { DogPhotoProps } from '../types';
+import { DogPhotoTemplate } from '../DogPhotoTemplate';
 
 /*
  * Whenever Apollo Client fetches query results from your server,
@@ -53,37 +54,33 @@ export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
    * while a refetch is in flight. Enabling this option also ensures that the value of `loading` updates accordingly,
    * even if you don't want to use the more fine-grained information provided by the `networkStatus` property.
    */
-  if (loading) {
-    if (networkStatus === NetworkStatus.refetch) {
-      return <p>Refetching...</p>;
-    }
-    return <p>Loading...</p>;
-  }
-  if (error) return <p>{`Error! ${error}`}</p>;
-  if (!data) return <p>{'No dog image data'}</p>;
-
   return (
-    <div>
-      <Image src={data.dog.displayImage} />
-      <p style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-        <button
-          onClick={() => {
-            refetch();
-          }}
-        >
-          {`Refetch selected breed (${breed})`}
-        </button>
+    <>
+      <DogPhotoTemplate
+        result={{ loading, error, data, networkStatus }}
+        button={{
+          text: `Refetch selected breed (${breed})`,
+          onClick: () => {
+            refetch({
+              breed,
+            }).then(({ data, loading, networkStatus }) => {
+              console.log('Refetch result:', data, loading, networkStatus);
+            });
+          },
+        }}
+      />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
         <button
           onClick={() => {
             // Can refetch with a new set of variables:
-            refetch({ breed: 'boxer' }); // always refetches a `boxer` instead of the original breed
+            void refetch({ breed: 'boxer' }); // always refetches a `boxer` instead of the original breed
           }}
         >
           Refetch boxer breed
         </button>
         <button onClick={() => startPolling(500)}>Start polling</button>
         <button onClick={() => stopPolling()}>Stop polling</button>
-      </p>
-    </div>
+      </div>
+    </>
   );
 };

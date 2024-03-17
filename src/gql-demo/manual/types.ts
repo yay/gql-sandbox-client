@@ -1,7 +1,3 @@
-export type DogPhotoProps = {
-  breed?: string;
-};
-
 /**
  * Manually creating the TypeScript types for the generic `useQuery` method.
  */
@@ -11,11 +7,12 @@ export type Dog = {
 };
 
 export type DogsQueryData = {
-  dogs: Dog[];
+  dogs?: Dog[];
 };
 
 export type DogPhotoQueryData = {
-  dog: {
-    displayImage: string;
+  dog?: {
+    id: string;
+    displayImage?: string;
   };
 };

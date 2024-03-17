@@ -62,11 +62,11 @@ export const DisplayLocations: FC = () => {
   // which are reflected in the loading and error properties.
   const { loading, error, data } = useQuery<QueryData>(GET_LOCATIONS);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error : {error.message}</div>;
 
   if (!data) {
-    return <p>No data</p>;
+    return <div>No data</div>;
   }
 
   return (
@@ -77,7 +77,7 @@ export const DisplayLocations: FC = () => {
           <img width="400" height="250" alt="location-reference" src={`${photo}`} />
           <br />
           <b>About this location:</b>
-          <p>{description}</p>
+          <div>{description}</div>
           <br />
         </div>
       ))}

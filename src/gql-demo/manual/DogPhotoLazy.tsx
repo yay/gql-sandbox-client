@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { NetworkStatus, useLazyQuery } from '@apollo/client';
-import { DogPhotoQueryData, DogPhotoProps } from './types';
+import { useLazyQuery } from '@apollo/client';
+import { DogPhotoQueryData } from './types';
 import { GET_DOG_PHOTO } from './queries';
-import { Image } from './Image';
+import { DogPhotoProps } from '../types';
+import { DogPhotoTemplate } from '../DogPhotoTemplate';
 
 /**
  * When React renders a component that calls `useQuery`, Apollo Client automatically executes the corresponding query.
@@ -14,22 +15,14 @@ import { Image } from './Image';
  */
 export const DogPhotoLazy: FC<DogPhotoProps> = ({ breed }) => {
   const [execute, result] = useLazyQuery<DogPhotoQueryData>(GET_DOG_PHOTO);
-  const { loading, error, data, networkStatus } = result;
-
-  if (loading) {
-    if (networkStatus === NetworkStatus.refetch) {
-      return <p>Refetching...</p>;
-    }
-    return <p>Loading...</p>;
-  }
-  if (error) return <p>{`Error! ${error}`}</p>;
 
   return (
-    <div>
-      {data?.dog?.displayImage ? <Image src={data.dog.displayImage} /> : 'No dog image data'}
-      <p>
-        <button onClick={() => execute({ variables: { breed } })}>Get dog lazily</button>
-      </p>
-    </div>
+    <DogPhotoTemplate
+      result={result}
+      button={{
+        text: 'Get dog lazily',
+        onClick: () => execute({ variables: { breed } }),
+      }}
+    />
   );
 };

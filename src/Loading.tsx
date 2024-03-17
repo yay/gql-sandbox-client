@@ -14,13 +14,16 @@ const useLoading = (): UseLoadingResult => {
   useEffect(() => {
     setLoading(true);
     const promise = new Promise<string>((resolve, reject) => {
-      setTimeout(() => {
-        if (Math.random() >= 0.5) {
-          resolve('Data loaded');
-        } else {
-          reject('Data loading failed');
-        }
-      }, 1000 + Math.random() * 1000);
+      setTimeout(
+        () => {
+          if (Math.random() >= 0.5) {
+            resolve('Data loaded');
+          } else {
+            reject('Data loading failed');
+          }
+        },
+        1000 + Math.random() * 1000
+      );
     });
     promise
       .then((result) => {
@@ -53,16 +56,16 @@ export const Loading: FC = () => {
   const { data, error, loading } = useLoading();
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <div>{error}</div>;
   }
 
   if (!data) {
-    return <p>No data</p>;
+    return <div>No data</div>;
   }
 
-  return <p>{data}</p>;
+  return <div>{data}</div>;
 };

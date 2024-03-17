@@ -84,15 +84,6 @@ export type QueryDogArgs = {
   breed: Scalars['String']['input'];
 };
 
-export type GetDogPhotoQueryVariables = Exact<{
-  breed: Scalars['String']['input'];
-}>;
-
-export type GetDogPhotoQuery = {
-  __typename?: 'Query';
-  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
-};
-
 export type GetDogsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetDogsQuery = {
@@ -107,54 +98,15 @@ export type GetBoxerPhotoQuery = {
   dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
 };
 
-export const GetDogPhotoDocument = gql`
-  query GetDogPhoto($breed: String!) {
-    dog(breed: $breed) {
-      id
-      displayImage
-    }
-  }
-`;
+export type GetDogPhotoQueryVariables = Exact<{
+  breed: Scalars['String']['input'];
+}>;
 
-/**
- * __useGetDogPhotoQuery__
- *
- * To run a query within a React component, call `useGetDogPhotoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDogPhotoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetDogPhotoQuery({
- *   variables: {
- *      breed: // value for 'breed'
- *   },
- * });
- */
-export function useGetDogPhotoQuery(
-  baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> &
-    ({ variables: GetDogPhotoQueryVariables; skip?: boolean } | { skip: boolean })
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export function useGetDogPhotoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export function useGetDogPhotoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
-export type GetDogPhotoLazyQueryHookResult = ReturnType<typeof useGetDogPhotoLazyQuery>;
-export type GetDogPhotoSuspenseQueryHookResult = ReturnType<typeof useGetDogPhotoSuspenseQuery>;
-export type GetDogPhotoQueryResult = Apollo.QueryResult<GetDogPhotoQuery, GetDogPhotoQueryVariables>;
+export type GetDogPhotoQuery = {
+  __typename?: 'Query';
+  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
+};
+
 export const GetDogsDocument = gql`
   query GetDogs {
     dogs {
@@ -243,3 +195,51 @@ export type GetBoxerPhotoQueryHookResult = ReturnType<typeof useGetBoxerPhotoQue
 export type GetBoxerPhotoLazyQueryHookResult = ReturnType<typeof useGetBoxerPhotoLazyQuery>;
 export type GetBoxerPhotoSuspenseQueryHookResult = ReturnType<typeof useGetBoxerPhotoSuspenseQuery>;
 export type GetBoxerPhotoQueryResult = Apollo.QueryResult<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>;
+export const GetDogPhotoDocument = gql`
+  query GetDogPhoto($breed: String!) {
+    dog(breed: $breed) {
+      id
+      displayImage
+    }
+  }
+`;
+
+/**
+ * __useGetDogPhotoQuery__
+ *
+ * To run a query within a React component, call `useGetDogPhotoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDogPhotoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDogPhotoQuery({
+ *   variables: {
+ *      breed: // value for 'breed'
+ *   },
+ * });
+ */
+export function useGetDogPhotoQuery(
+  baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> &
+    ({ variables: GetDogPhotoQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+}
+export function useGetDogPhotoLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+}
+export function useGetDogPhotoSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+}
+export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
+export type GetDogPhotoLazyQueryHookResult = ReturnType<typeof useGetDogPhotoLazyQuery>;
+export type GetDogPhotoSuspenseQueryHookResult = ReturnType<typeof useGetDogPhotoSuspenseQuery>;
+export type GetDogPhotoQueryResult = Apollo.QueryResult<GetDogPhotoQuery, GetDogPhotoQueryVariables>;

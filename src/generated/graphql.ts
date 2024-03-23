@@ -10,11 +10,11 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type Actor = {
@@ -25,7 +25,7 @@ export type Actor = {
 
 export enum CacheControlScope {
   Private = 'PRIVATE',
-  Public = 'PUBLIC',
+  Public = 'PUBLIC'
 }
 
 export type Director = {
@@ -67,6 +67,7 @@ export type Mutation = {
   addMovie?: Maybe<Movie>;
 };
 
+
 export type MutationAddMovieArgs = {
   director: Scalars['String']['input'];
   title: Scalars['String']['input'];
@@ -80,41 +81,37 @@ export type Query = {
   finance?: Maybe<Finance>;
 };
 
+
 export type QueryDogArgs = {
   breed: Scalars['String']['input'];
 };
 
-export type GetDogsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetDogsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetDogsQuery = {
-  __typename?: 'Query';
-  dogs?: Array<{ __typename?: 'Dog'; id: string; breed: string }> | null;
-};
 
-export type GetBoxerPhotoQueryVariables = Exact<{ [key: string]: never }>;
+export type GetDogsQuery = { __typename?: 'Query', dogs?: Array<{ __typename?: 'Dog', id: string, breed: string }> | null };
 
-export type GetBoxerPhotoQuery = {
-  __typename?: 'Query';
-  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
-};
+export type GetBoxerPhotoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBoxerPhotoQuery = { __typename?: 'Query', dog?: { __typename?: 'Dog', id: string, displayImage?: string | null } | null };
 
 export type GetDogPhotoQueryVariables = Exact<{
   breed: Scalars['String']['input'];
 }>;
 
-export type GetDogPhotoQuery = {
-  __typename?: 'Query';
-  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
-};
+
+export type GetDogPhotoQuery = { __typename?: 'Query', dog?: { __typename?: 'Dog', id: string, displayImage?: string | null } | null };
+
 
 export const GetDogsDocument = gql`
-  query GetDogs {
-    dogs {
-      id
-      breed
-    }
+    query GetDogs {
+  dogs {
+    id
+    breed
   }
-`;
+}
+    `;
 
 /**
  * __useGetDogsQuery__
@@ -132,31 +129,29 @@ export const GetDogsDocument = gql`
  * });
  */
 export function useGetDogsQuery(baseOptions?: Apollo.QueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+      }
 export function useGetDogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-}
-export function useGetDogsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+        }
+export function useGetDogsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+        }
 export type GetDogsQueryHookResult = ReturnType<typeof useGetDogsQuery>;
 export type GetDogsLazyQueryHookResult = ReturnType<typeof useGetDogsLazyQuery>;
 export type GetDogsSuspenseQueryHookResult = ReturnType<typeof useGetDogsSuspenseQuery>;
 export type GetDogsQueryResult = Apollo.QueryResult<GetDogsQuery, GetDogsQueryVariables>;
 export const GetBoxerPhotoDocument = gql`
-  query GetBoxerPhoto {
-    dog(breed: "boxer") {
-      id
-      displayImage
-    }
+    query GetBoxerPhoto {
+  dog(breed: "boxer") {
+    id
+    displayImage
   }
-`;
+}
+    `;
 
 /**
  * __useGetBoxerPhotoQuery__
@@ -173,36 +168,30 @@ export const GetBoxerPhotoDocument = gql`
  *   },
  * });
  */
-export function useGetBoxerPhotoQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
-}
-export function useGetBoxerPhotoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
-}
-export function useGetBoxerPhotoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
-}
+export function useGetBoxerPhotoQuery(baseOptions?: Apollo.QueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
+      }
+export function useGetBoxerPhotoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
+        }
+export function useGetBoxerPhotoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
+        }
 export type GetBoxerPhotoQueryHookResult = ReturnType<typeof useGetBoxerPhotoQuery>;
 export type GetBoxerPhotoLazyQueryHookResult = ReturnType<typeof useGetBoxerPhotoLazyQuery>;
 export type GetBoxerPhotoSuspenseQueryHookResult = ReturnType<typeof useGetBoxerPhotoSuspenseQuery>;
 export type GetBoxerPhotoQueryResult = Apollo.QueryResult<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>;
 export const GetDogPhotoDocument = gql`
-  query GetDogPhoto($breed: String!) {
-    dog(breed: $breed) {
-      id
-      displayImage
-    }
+    query GetDogPhoto($breed: String!) {
+  dog(breed: $breed) {
+    id
+    displayImage
   }
-`;
+}
+    `;
 
 /**
  * __useGetDogPhotoQuery__
@@ -220,25 +209,18 @@ export const GetDogPhotoDocument = gql`
  *   },
  * });
  */
-export function useGetDogPhotoQuery(
-  baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> &
-    ({ variables: GetDogPhotoQueryVariables; skip?: boolean } | { skip: boolean })
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export function useGetDogPhotoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export function useGetDogPhotoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
+export function useGetDogPhotoQuery(baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> & ({ variables: GetDogPhotoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+      }
+export function useGetDogPhotoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+        }
+export function useGetDogPhotoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
+        }
 export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
 export type GetDogPhotoLazyQueryHookResult = ReturnType<typeof useGetDogPhotoLazyQuery>;
 export type GetDogPhotoSuspenseQueryHookResult = ReturnType<typeof useGetDogPhotoSuspenseQuery>;

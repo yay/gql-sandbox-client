@@ -12,9 +12,9 @@ const config: CodegenConfig = {
       plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
     },
   },
-  hooks: {
-    afterOneFileWrite: ['prettier --write'],
-  },
+  // hooks: {
+  //   afterOneFileWrite: ['prettier --write'],
+  // },
 };
 
 export default config;

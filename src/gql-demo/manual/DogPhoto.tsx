@@ -15,6 +15,7 @@ import { DogPhotoTemplate } from '../DogPhotoTemplate';
 export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
   // [4] Passing variables. Query options.
 
+  // `data` here will be `undefined` while `loading` or if connection is interrupted.
   const { loading, error, data, startPolling, stopPolling, refetch, networkStatus } = useQuery<DogPhotoQueryData>(
     GET_DOG_PHOTO,
     {

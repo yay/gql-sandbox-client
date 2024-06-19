@@ -114,7 +114,6 @@ export type Query = {
   dog?: Maybe<Dog>;
   dogs?: Maybe<Array<Maybe<Dog>>>;
   finance?: Maybe<Finance>;
-  getNetworkingList: NetworkingList;
 };
 
 export type QueryDogArgs = {
@@ -126,11 +125,11 @@ export enum SortOrder {
   Desc = 'DESC',
 }
 
-export type GetDogsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetBoxerPhotoQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetDogsQuery = {
+export type GetBoxerPhotoQuery = {
   __typename?: 'Query';
-  dogs?: Array<{ __typename?: 'Dog'; id: string; breed: string } | null> | null;
+  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
 };
 
 export type GetDogPhotoQueryVariables = Exact<{
@@ -142,68 +141,59 @@ export type GetDogPhotoQuery = {
   dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
 };
 
-export type GetNetworkingListQueryVariables = Exact<{
-  page?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  sort?: InputMaybe<Array<NetworkingListEntriesSort> | NetworkingListEntriesSort>;
-}>;
+export type GetDogsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetNetworkingListQuery = {
+export type GetDogsQuery = {
   __typename?: 'Query';
-  getNetworkingList: {
-    __typename?: 'NetworkingList';
-    id?: string | null;
-    name: string;
-    networkingListEntriesData: {
-      __typename?: 'NetworkingListEntriesData';
-      totalCount: number;
-      data?: Array<{ __typename?: 'NetworkingListEntry'; createdDate?: string | null }> | null;
-    };
-  };
+  dogs?: Array<{ __typename?: 'Dog'; id: string; breed: string } | null> | null;
 };
 
-export const GetDogsDocument = gql`
-  query GetDogs {
-    dogs {
+export const GetBoxerPhotoDocument = gql`
+  query GetBoxerPhoto {
+    dog(breed: "boxer") {
       id
-      breed
+      displayImage
     }
   }
 `;
 
 /**
- * __useGetDogsQuery__
+ * __useGetBoxerPhotoQuery__
  *
- * To run a query within a React component, call `useGetDogsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetBoxerPhotoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBoxerPhotoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetDogsQuery({
+ * const { data, loading, error } = useGetBoxerPhotoQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetDogsQuery(baseOptions?: Apollo.QueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-}
-export function useGetDogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
-}
-export function useGetDogsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>
+export function useGetBoxerPhotoQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+  return Apollo.useQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
 }
-export type GetDogsQueryHookResult = ReturnType<typeof useGetDogsQuery>;
-export type GetDogsLazyQueryHookResult = ReturnType<typeof useGetDogsLazyQuery>;
-export type GetDogsSuspenseQueryHookResult = ReturnType<typeof useGetDogsSuspenseQuery>;
-export type GetDogsQueryResult = Apollo.QueryResult<GetDogsQuery, GetDogsQueryVariables>;
+export function useGetBoxerPhotoLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
+}
+export function useGetBoxerPhotoSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
+}
+export type GetBoxerPhotoQueryHookResult = ReturnType<typeof useGetBoxerPhotoQuery>;
+export type GetBoxerPhotoLazyQueryHookResult = ReturnType<typeof useGetBoxerPhotoLazyQuery>;
+export type GetBoxerPhotoSuspenseQueryHookResult = ReturnType<typeof useGetBoxerPhotoSuspenseQuery>;
+export type GetBoxerPhotoQueryResult = Apollo.QueryResult<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>;
 export const GetDogPhotoDocument = gql`
   query GetDogPhoto($breed: String!) {
     dog(breed: $breed) {
@@ -252,64 +242,45 @@ export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
 export type GetDogPhotoLazyQueryHookResult = ReturnType<typeof useGetDogPhotoLazyQuery>;
 export type GetDogPhotoSuspenseQueryHookResult = ReturnType<typeof useGetDogPhotoSuspenseQuery>;
 export type GetDogPhotoQueryResult = Apollo.QueryResult<GetDogPhotoQuery, GetDogPhotoQueryVariables>;
-export const GetNetworkingListDocument = gql`
-  query GetNetworkingList($page: Int, $limit: Int, $sort: [NetworkingListEntriesSort!]) {
-    getNetworkingList {
+export const GetDogsDocument = gql`
+  query GetDogs {
+    dogs {
       id
-      name
-      networkingListEntriesData(page: $page, limit: $limit, sort: $sort) {
-        data {
-          createdDate
-        }
-        totalCount
-      }
+      breed
     }
   }
 `;
 
 /**
- * __useGetNetworkingListQuery__
+ * __useGetDogsQuery__
  *
- * To run a query within a React component, call `useGetNetworkingListQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetNetworkingListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetDogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetNetworkingListQuery({
+ * const { data, loading, error } = useGetDogsQuery({
  *   variables: {
- *      page: // value for 'page'
- *      limit: // value for 'limit'
- *      sort: // value for 'sort'
  *   },
  * });
  */
-export function useGetNetworkingListQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>
+export function useGetDogsQuery(baseOptions?: Apollo.QueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+}
+export function useGetDogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+}
+export function useGetDogsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(GetNetworkingListDocument, options);
+  return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
 }
-export function useGetNetworkingListLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(
-    GetNetworkingListDocument,
-    options
-  );
-}
-export function useGetNetworkingListSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetNetworkingListQuery, GetNetworkingListQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetNetworkingListQuery, GetNetworkingListQueryVariables>(
-    GetNetworkingListDocument,
-    options
-  );
-}
-export type GetNetworkingListQueryHookResult = ReturnType<typeof useGetNetworkingListQuery>;
-export type GetNetworkingListLazyQueryHookResult = ReturnType<typeof useGetNetworkingListLazyQuery>;
-export type GetNetworkingListSuspenseQueryHookResult = ReturnType<typeof useGetNetworkingListSuspenseQuery>;
-export type GetNetworkingListQueryResult = Apollo.QueryResult<GetNetworkingListQuery, GetNetworkingListQueryVariables>;
+export type GetDogsQueryHookResult = ReturnType<typeof useGetDogsQuery>;
+export type GetDogsLazyQueryHookResult = ReturnType<typeof useGetDogsLazyQuery>;
+export type GetDogsSuspenseQueryHookResult = ReturnType<typeof useGetDogsSuspenseQuery>;
+export type GetDogsQueryResult = Apollo.QueryResult<GetDogsQuery, GetDogsQueryVariables>;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { GraphQLDemo } from './gql-demo/GraphQLDemo';
-import { DogsGeneratedTypesContainer } from './gql-demo/DogsGeneratedTypes';
-import { DogsGeneratedHooksContainer } from './gql-demo/DogsGeneratedHooks';
+import { GraphQLDemo } from './gql/GraphQLDemo';
+import { DogsGeneratedTypesContainer } from './gql/DogsGeneratedTypes';
+import { DogsGeneratedHooksContainer } from './gql/DogsGeneratedHooks';
 // import { DisplayLocationsContainer } from '../DisplayLocation';
 import './App.css';
 

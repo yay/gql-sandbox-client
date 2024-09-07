@@ -44,48 +44,11 @@ const useDesignContext = () => {
   return React.useContext(DesignContext);
 };
 
-const getPickerStyles = (theme: Theme): PickerComponents<Theme> => ({
-  MuiPickersToolbar: {
-    styleOverrides: {
-      root: {
-        backgroundColor: 'red',
-      },
-    },
-  },
-  MuiDateField: {
-    defaultProps: {
-      sx: {
-        '& input': {},
-      },
-    },
-  },
-  MuiDatePicker: {},
-  MuiDateCalendar: {
-    styleOverrides: {
-      root: {
-        backgroundColor: 'red',
-        color: 'yellow',
-        '& .MuiPickersCalendarHeader-switchViewButton, .MuiPickersArrowSwitcher-button': {
-          color: 'white',
-        },
-        '& .MuiDayCalendar-weekDayLabel': {
-          color: 'yellow',
-          fontWeight: 'bold',
-        },
-        '& .MuiPickersDay-root': {
-          color: 'white',
-        },
-      },
-    },
-  },
-  // MuiCalendarPicker: {},
-});
-
-export type CustomThemeContextProps = {
+export type DesignProviderProps = {
   children?: React.ReactNode;
 };
 
-const DesignProvider: FC<CustomThemeContextProps> = (props) => {
+const DesignProvider: FC<DesignProviderProps> = (props) => {
   const { children } = props;
   const [themeOptions, setThemeOptions] = useState<ThemeOptions>({
     palette: {
@@ -170,5 +133,42 @@ const DesignProvider: FC<CustomThemeContextProps> = (props) => {
 // export const CssVarsBasic: FC = () => {
 //   return <CssVarsProvider theme={cssVarsTheme}>Hello world</CssVarsProvider>;
 // };
+
+const getPickerStyles = (theme: Theme): PickerComponents<Theme> => ({
+  MuiPickersToolbar: {
+    styleOverrides: {
+      root: {
+        backgroundColor: 'red',
+      },
+    },
+  },
+  MuiDateField: {
+    defaultProps: {
+      sx: {
+        '& input': {},
+      },
+    },
+  },
+  MuiDatePicker: {},
+  MuiDateCalendar: {
+    styleOverrides: {
+      root: {
+        backgroundColor: 'red',
+        color: 'yellow',
+        '& .MuiPickersCalendarHeader-switchViewButton, .MuiPickersArrowSwitcher-button': {
+          color: 'white',
+        },
+        '& .MuiDayCalendar-weekDayLabel': {
+          color: 'yellow',
+          fontWeight: 'bold',
+        },
+        '& .MuiPickersDay-root': {
+          color: 'white',
+        },
+      },
+    },
+  },
+  // MuiCalendarPicker: {},
+});
 
 export { DesignProvider, useDesignContext };

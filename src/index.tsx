@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// import './index.css'; // Using MUI's <CssBaseline /> instead.
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { DesignProvider } from './Theme';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { GraphQLDemo } from './gql/GraphQLDemo';
 import { MUIDemo } from './mui/MUIDemo';
-import { App } from './App';
 import { Interview } from './interview/Interview';
+import { AppLayout } from './AppLayout';
 
 // DataGrid "license".
 setInterval(() => {
@@ -24,24 +24,40 @@ const client = new ApolloClient({
   connectToDevTools: true,
 });
 
+const routes = [
+  {
+    name: 'Interview',
+    path: 'interview',
+  },
+  {
+    name: 'MUI',
+    path: '/mui',
+  },
+  {
+    name: 'GraphQL',
+    path: '/gql',
+  },
+];
+
 // https://reactrouter.com/en/main/start/tutorial
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
-    errorElement: '',
-  },
-  {
-    path: '/mui',
-    element: <MUIDemo />,
-  },
-  {
-    path: '/gql',
-    element: <GraphQLDemo />,
-  },
-  {
-    path: '/interview',
-    element: <Interview />,
+    element: <AppLayout routes={routes} />,
+    children: [
+      {
+        path: '/mui',
+        element: <MUIDemo />,
+      },
+      {
+        path: '/gql',
+        element: <GraphQLDemo />,
+      },
+      {
+        path: '/interview',
+        element: <Interview />,
+      },
+    ],
   },
 ]);
 

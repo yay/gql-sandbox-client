@@ -183,33 +183,23 @@ const Chart = React.forwardRef<ChartApi, ChartProps>((props, ref) => {
 Chart.displayName = 'Chart';
 
 const ChartContainer = styled('div')(`
-width: 100%;
-height: 100%;
+	width: 100%;
+	height: 100%;
 `);
 
 const ChartRoot = styled('div')(`
-width: 100%;
-height: 100%;
-position: relative;
+	width: 100%;
+	height: 100%;
+	position: relative;
 `);
 
 const ChartOverlay = styled('div')(`
-width: 100%;
-height: 100%;
-left: 0;
-top: 0;
-pointer-events: none;
-position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+	position: absolute;
 `);
-
-// const StatWrapper = styled('div')(
-//   ({ theme }) => `
-//   background-color: ${theme.palette.background.paper};
-//   box-shadow: ${theme.shadows[1]};
-//   border-radius: ${theme.shape.borderRadius}px;
-//   padding: ${theme.spacing(2)};
-//   min-width: 300px;
-// `,
-// );
 
 export { Chart, echarts, zrender };

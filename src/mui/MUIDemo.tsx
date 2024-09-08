@@ -1,25 +1,14 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import { Grid, Button, useMediaQuery, Box } from '@mui/material';
-import { Button as BaseButton } from '@mui/base';
-import { /* CssVarsBasic, */ useDesignContext } from '../Theme';
+import React, { FC } from 'react';
+import { Grid, Box } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { GridDemo } from '../GridDemo';
+import { GridDemo } from './GridDemo';
 import { Chart, echarts } from '../chart/Chart';
 
 export function MUIDemo() {
   const [date, setDate] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
-  const { setThemeOptions } = useDesignContext();
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-  const useSystemColorTheme = useCallback(
-    () => setThemeOptions({ palette: { mode: prefersDarkMode ? 'dark' : 'light' } }),
-    [prefersDarkMode, setThemeOptions]
-  );
-
-  useEffect(() => useSystemColorTheme(), [useSystemColorTheme]);
 
   return (
     <Box
@@ -36,13 +25,6 @@ export function MUIDemo() {
       }}
     >
       <Grid container direction={'column'} rowGap={2}>
-        <Grid container direction={'row'} columnGap={2} alignItems={'center'}>
-          <Button variant={'outlined'}>Material Button</Button>
-          <BaseButton>Base Button</BaseButton>
-          <Button onClick={() => setThemeOptions({ palette: { mode: 'light' } })}>Light</Button>
-          <Button onClick={() => setThemeOptions({ palette: { mode: 'dark' } })}>Dark</Button>
-          <Button onClick={useSystemColorTheme}>System</Button>
-        </Grid>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker label="Pick a date" value={date} onChange={(newDate) => setDate(newDate)} />
         </LocalizationProvider>
@@ -102,6 +84,7 @@ const AreaChart: FC = () => {
       ]}
       series={[
         {
+          id: 'Line 1',
           name: 'Line 1',
           type: 'line',
           stack: 'Total',
@@ -129,6 +112,7 @@ const AreaChart: FC = () => {
           data: [140, 232, 101, 264, 90, 340, 250],
         },
         {
+          id: 'Line 2',
           name: 'Line 2',
           type: 'line',
           stack: 'Total',
@@ -156,6 +140,7 @@ const AreaChart: FC = () => {
           data: [120, 282, 111, 234, 220, 340, 310],
         },
         {
+          id: 'Line 3',
           name: 'Line 3',
           type: 'line',
           stack: 'Total',
@@ -183,6 +168,7 @@ const AreaChart: FC = () => {
           data: [320, 132, 201, 334, 190, 130, 220],
         },
         {
+          id: 'Line 4',
           name: 'Line 4',
           type: 'line',
           stack: 'Total',
@@ -210,6 +196,7 @@ const AreaChart: FC = () => {
           data: [220, 402, 231, 134, 190, 230, 120],
         },
         {
+          id: 'Line 5',
           name: 'Line 5',
           type: 'line',
           stack: 'Total',

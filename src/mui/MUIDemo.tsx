@@ -18,10 +18,11 @@ export function MUIDemo() {
       // https://mui.com/material-ui/customization/breakpoints/
       sx={{
         height: '100%',
+        overflow: 'auto',
         padding: 2,
         boxSizing: 'border-box',
-        // bgcolor: 'background.paper', // this token fetches theme value and is equivalent to code below
-        backgroundColor: (theme) => theme.palette.background.paper, // type-safe unlike the above
+        bgcolor: 'background.paper', // this token fetches theme value and is equivalent to code below
+        // backgroundColor: (theme) => theme.palette.background.paper, // type-safe unlike the above
       }}
     >
       <Grid container direction={'column'} rowGap={2}>
@@ -30,7 +31,7 @@ export function MUIDemo() {
         </LocalizationProvider>
         {/* <CssVarsBasic /> */}
         <GridDemo />
-        <Box width={1000} height={400}>
+        <Box width={'100%'} height={400}>
           <AreaChart />
         </Box>
       </Grid>

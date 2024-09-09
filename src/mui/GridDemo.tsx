@@ -63,6 +63,9 @@ export const GridDemo: FC<GridDemoProps> = () => {
 
   return (
     <DataGridPremium
+      sx={{
+        width: '100%',
+      }}
       columns={[
         {
           field: 'name',

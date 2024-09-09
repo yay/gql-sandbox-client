@@ -21,7 +21,7 @@ export const GraphQLDemo: FC = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: '10px' }}>
       <DogSelector onDogSelected={onDogSelected} />
       {selectedDog && (
         <div>

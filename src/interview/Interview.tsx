@@ -1,34 +1,49 @@
-import { Box, Tab, Tabs } from '@mui/material';
 import React, { FC } from 'react';
-
-// import { HeaderTest } from './examples/columns/HeaderTest';
-// import { ParentComponent } from './examples/Memo';
-// import { Header, NoJsxHeader } from './examples/NoJSX';
-// import { ProductList } from './examples/ProductList';
-// import { ReduxComponent } from './examples/redux/Redux';
-// import { EffectComponent } from './examples/UseEffect';
-// import { RandomComponent } from './examples/UseState';
+import { Box, useTheme } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+import { NavList } from '../NavList';
 
 export const Interview: FC = () => {
-  const [value, setValue] = React.useState('one');
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
+  const theme = useTheme();
   return (
-    <Box sx={{ width: '100%' }}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        textColor="secondary"
-        indicatorColor="secondary"
-        aria-label="secondary tabs example"
-      >
-        <Tab value="one" label="Item One" />
-        <Tab value="two" label="Item Two" />
-        <Tab value="three" label="Item Three" />
-      </Tabs>
+    <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ width: '150px', borderRight: `1px solid ${theme.palette.divider}` }}>
+        <NavList
+          routes={[
+            {
+              name: 'React.memo',
+              path: 'memo',
+            },
+            {
+              name: 'No JSX',
+              path: 'no-jsx',
+            },
+            {
+              name: 'Product List',
+              path: 'product-list',
+            },
+            {
+              name: 'useEffect',
+              path: 'use-effect',
+            },
+            {
+              name: 'Uncontrolled',
+              path: 'uncontrolled',
+            },
+            // {
+            //   name: 'No JSX',
+            //   path: 'no-jsx',
+            // },
+            // {
+            //   name: 'No JSX',
+            //   path: 'no-jsx',
+            // },
+          ]}
+        />
+      </Box>
+      <Box sx={{ flex: 1, padding: '10px', overflow: 'auto' }}>
+        <Outlet />
+      </Box>
     </Box>
   );
 };

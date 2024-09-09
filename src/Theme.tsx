@@ -75,6 +75,11 @@ const DesignProvider: FC<DesignProviderProps> = (props) => {
           //   },
           // },
           components: {
+            // MuiButtonBase: {
+            //   defaultProps: {
+            //     disableRipple: true,
+            //   },
+            // },
             MuiAutocomplete: {
               defaultProps: {},
             },

@@ -2,17 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 // Knowledge questions:
 
-// Q: What is the difference between macrotask and microtask? (when it comes to JavaScript execution)
-// A: After this macrotask has finished, all available microtasks will be processed.
-//    While these microtasks are processed, they can queue even more microtasks,
-//    which will all be run one by one, until the microtask queue is exhausted.
-
-// Q: What are some examples or micro- and macrotasks?
-// A: Microtasks include: MutationObserver, Promise.then/catch, other techniques based on Promise such as the fetch API,
-//    V8 garbage collection process, process.nextTick() in Node environment.
-//    Macrotasks include: initial script, setTimeout, setInterval, I/O, UI rendering.
-//    Note: MutationObserver provides the ability to watch for changes being made to the DOM tree.
-
 // Q: What is big O notation?
 // Q: What is the time complexity of the binary search algorithm? Why is it O(log2(n))?
 // A: Because number of elements in the binary tree is n = 2 ^ depth, so depth is log2(n).
@@ -132,6 +121,17 @@ export default function ProductList() {
     </div>
   );
 }
+
+// Q: What is the difference between macrotask and microtask? (when it comes to JavaScript execution)
+// A: After this macrotask has finished, all available microtasks will be processed.
+//    While these microtasks are processed, they can queue even more microtasks,
+//    which will all be run one by one, until the microtask queue is exhausted.
+
+// Q: What are some examples or micro- and macrotasks?
+// A: Microtasks include: MutationObserver, Promise.then/catch, other techniques based on Promise such as the fetch API,
+//    V8 garbage collection process, process.nextTick() in Node environment.
+//    Macrotasks include: initial script, setTimeout, setInterval, I/O, UI rendering.
+//    Note: MutationObserver provides the ability to watch for changes being made to the DOM tree.
 
 function promiseTrick1() {
   const promise1 = new Promise((resolve, reject) => {

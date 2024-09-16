@@ -14,6 +14,7 @@ import NoJSX from './interview/NoJSX';
 import ProductList from './interview/ProductList';
 import EffectComponent from './interview/UseEffect';
 import Uncontrolled from './interview/Uncontrolled';
+import { Dropzone } from './interview/Dropzone';
 
 // DataGrid "license".
 setInterval(() => {
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
           {
             path: 'uncontrolled',
             element: <Uncontrolled />,
+          },
+          {
+            path: 'dropzone',
+            element: <Dropzone />,
           },
         ],
       },

@@ -30,6 +30,10 @@ export const Interview: FC = () => {
               name: 'Uncontrolled',
               path: 'uncontrolled',
             },
+            {
+              name: 'Dropzone',
+              path: 'dropzone',
+            },
             // {
             //   name: 'No JSX',
             //   path: 'no-jsx',

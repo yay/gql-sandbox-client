@@ -11,37 +11,26 @@ export const Interview: FC = () => {
         <NavList
           routes={[
             {
-              name: 'React.memo',
               path: 'memo',
             },
             {
-              name: 'No JSX',
               path: 'no-jsx',
             },
             {
-              name: 'Product List',
               path: 'product-list',
             },
             {
-              name: 'useEffect',
               path: 'use-effect',
             },
             {
-              name: 'Uncontrolled',
               path: 'uncontrolled',
             },
             {
-              name: 'Dropzone',
               path: 'dropzone',
             },
-            // {
-            //   name: 'No JSX',
-            //   path: 'no-jsx',
-            // },
-            // {
-            //   name: 'No JSX',
-            //   path: 'no-jsx',
-            // },
+            {
+              path: 'suspense',
+            },
           ]}
         />
       </Box>

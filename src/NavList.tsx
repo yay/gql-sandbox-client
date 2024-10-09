@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 export type NavListProps = {
   routes: {
-    name: string;
+    name?: string;
     path: string;
   }[];
 };
@@ -29,7 +29,7 @@ export const NavList: FC<NavListProps> = ({ routes }) => {
         <Link key={path} to={path} className={linkCls}>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary={name} />
+              <ListItemText primary={name || path} />
             </ListItemButton>
           </ListItem>
         </Link>

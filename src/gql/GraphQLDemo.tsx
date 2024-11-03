@@ -14,25 +14,25 @@ import { DogPhotoLazy } from './DogPhotoLazy';
 //
 
 export const GraphQLDemo: FC = () => {
-  const [selectedDog, setSelectedDog] = useState<string | undefined>(undefined);
+	const [selectedDog, setSelectedDog] = useState<string | undefined>(undefined);
 
-  const onDogSelected: React.ChangeEventHandler<HTMLSelectElement> = ({ target }) => {
-    setSelectedDog(target.value);
-  };
+	const onDogSelected: React.ChangeEventHandler<HTMLSelectElement> = ({ target }) => {
+		setSelectedDog(target.value);
+	};
 
-  return (
-    <div style={{ padding: '10px' }}>
-      <DogSelector onDogSelected={onDogSelected} />
-      {selectedDog && (
-        <div>
-          <p>
-            <DogPhoto breed={selectedDog} />
-          </p>
-          <p>
-            <DogPhotoLazy breed={selectedDog} />
-          </p>
-        </div>
-      )}
-    </div>
-  );
+	return (
+		<div style={{ padding: '10px' }}>
+			<DogSelector onDogSelected={onDogSelected} />
+			{selectedDog && (
+				<div>
+					<p>
+						<DogPhoto breed={selectedDog} />
+					</p>
+					<p>
+						<DogPhotoLazy breed={selectedDog} />
+					</p>
+				</div>
+			)}
+		</div>
+	);
 };

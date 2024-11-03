@@ -46,80 +46,91 @@ import React, { useEffect, useState } from 'react';
 type Product = { name: string; price: string };
 
 function search(query: string): Promise<Product[]> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (!query) {
-        resolve([
-          { name: 'Default product 1', price: '$100' },
-          { name: 'Default product 2', price: '$150' },
-          { name: 'Default product 3', price: '$200' },
-        ]);
-        return; // otherwise second resolve will execute (though without affecting anything)
-      }
-      resolve([
-        { name: `Product 1 ${query}`, price: `$${Math.floor(100 + Math.random() * 900)}` },
-        { name: `Product 2 ${query}`, price: `$${Math.floor(100 + Math.random() * 900)}` },
-        { name: `Product 3 ${query}`, price: `$${Math.floor(100 + Math.random() * 900)}` },
-      ]);
-    }, 2000);
-  });
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			if (!query) {
+				resolve([
+					{ name: 'Default product 1', price: '$100' },
+					{ name: 'Default product 2', price: '$150' },
+					{ name: 'Default product 3', price: '$200' },
+				]);
+				return; // otherwise second resolve will execute (though without affecting anything)
+			}
+			resolve([
+				{
+					name: `Product 1 ${query}`,
+					price: `$${Math.floor(100 + Math.random() * 900)}`,
+				},
+				{
+					name: `Product 2 ${query}`,
+					price: `$${Math.floor(100 + Math.random() * 900)}`,
+				},
+				{
+					name: `Product 3 ${query}`,
+					price: `$${Math.floor(100 + Math.random() * 900)}`,
+				},
+			]);
+		}, 2000);
+	});
 }
 
 function Products(props: { products: Product[] }) {
-  const { products } = props;
+	const { products } = props;
 
-  return products.map((product) => (
-    <div key={product.name}>
-      <span>{product.name}</span>
-      <span style={{ float: 'right' }}>{product.price}</span>
-    </div>
-  ));
+	return products.map((product) => (
+		<div key={product.name}>
+			<span>{product.name}</span>
+			<span style={{ float: 'right' }}>{product.price}</span>
+		</div>
+	));
 }
 
 export default function ProductList() {
-  const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [query, setQuery] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [products, setProducts] = useState<Product[]>([]);
+	const [query, setQuery] = useState('');
 
-  useEffect(() => {
-    setLoading(true);
-    search('').then((result) => {
-      setLoading(false);
-      setProducts(result);
-    });
-  }, []);
+	useEffect(() => {
+		setLoading(true);
+		search('').then((result) => {
+			setLoading(false);
+			setProducts(result);
+		});
+	}, []);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setQuery(event.target.value);
-  }
+	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+		setQuery(event.target.value);
+	}
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    setLoading(true);
-    search(query).then((result) => {
-      setLoading(false);
-      setProducts(result);
-    });
-    event.preventDefault();
-  }
+	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+		setLoading(true);
+		search(query).then((result) => {
+			setLoading(false);
+			setProducts(result);
+		});
+		event.preventDefault();
+	}
 
-  return (
-    <div style={{ width: '30%' }}>
-      <div>
-        <p>Product List</p>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Search:&nbsp;
-              <input onChange={handleChange} type="text" value={query} />
-            </label>
-            &nbsp;
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      </div>
-      <div style={{ paddingTop: '10px' }}>{loading ? 'Loading...' : <Products products={products} />}</div>
-    </div>
-  );
+	return (
+		<div style={{ width: '30%' }}>
+			<div>
+				<p>Product List</p>
+				<div>
+					<form onSubmit={handleSubmit}>
+						<label>
+							Search:&nbsp;
+							<input onChange={handleChange} type="text" value={query} />
+						</label>
+						&nbsp;
+						<input type="submit" value="Submit" />
+					</form>
+				</div>
+			</div>
+			<div style={{ paddingTop: '10px' }}>
+				{loading ? 'Loading...' : <Products products={products} />}
+			</div>
+		</div>
+	);
 }
 
 // Q: What is the difference between macrotask and microtask? (when it comes to JavaScript execution)
@@ -134,152 +145,152 @@ export default function ProductList() {
 //    Note: MutationObserver provides the ability to watch for changes being made to the DOM tree.
 
 function promiseTrick1() {
-  const promise1 = new Promise((resolve, reject) => {
-    console.log(1);
-    resolve('success');
-  });
-  promise1.then(() => console.log(3)); // added to the microtask queue (not immediately executed)
-  console.log(4);
-  // At this point, all the synchronized code, the current macrotask,
-  // is executed.Then the JavaScript engine checks the queue of microtasks and executes them in turn.
+	const promise1 = new Promise((resolve, reject) => {
+		console.log(1);
+		resolve('success');
+	});
+	promise1.then(() => console.log(3)); // added to the microtask queue (not immediately executed)
+	console.log(4);
+	// At this point, all the synchronized code, the current macrotask,
+	// is executed.Then the JavaScript engine checks the queue of microtasks and executes them in turn.
 
-  // 1, 4, 3
+	// 1, 4, 3
 }
 
 function promiseTrick2() {
-  const promise1 = new Promise((resolve, reject) => {
-    console.log(1);
-  });
-  promise1.then(() => {
-    console.log(3);
-  });
-  console.log(4);
+	const promise1 = new Promise((resolve, reject) => {
+		console.log(1);
+	});
+	promise1.then(() => {
+		console.log(3);
+	});
+	console.log(4);
 
-  // 1, 4
+	// 1, 4
 }
 
 function promiseTrick3() {
-  const promise1 = new Promise((resolve, reject) => {
-    console.log(1);
-    resolve('resolve1');
-  });
-  const promise2 = promise1.then((res) => {
-    console.log(res);
-  });
-  console.log('promise1:', promise1);
-  console.log('promise2:', promise2);
+	const promise1 = new Promise((resolve, reject) => {
+		console.log(1);
+		resolve('resolve1');
+	});
+	const promise2 = promise1.then((res) => {
+		console.log(res);
+	});
+	console.log('promise1:', promise1);
+	console.log('promise2:', promise2);
 
-  // 1, promise1: Promise { <resolved>: 'resolve1 }, promise2: Promise { <pending> }, resolve1
+	// 1, promise1: Promise { <resolved>: 'resolve1 }, promise2: Promise { <pending> }, resolve1
 }
 
 function promiseTrick4() {
-  const fn = () =>
-    new Promise((resolve, reject) => {
-      console.log(1);
-      resolve('success');
-    });
-  fn().then((res) => {
-    console.log(res);
-  });
-  console.log(2);
+	const fn = () =>
+		new Promise((resolve, reject) => {
+			console.log(1);
+			resolve('success');
+		});
+	fn().then((res) => {
+		console.log(res);
+	});
+	console.log(2);
 
-  // 1, 2, success
+	// 1, 2, success
 }
 
 function promiseTrick5() {
-  console.log('start');
-  setTimeout(() => console.log('setTimeout'));
-  new Promise((resolve) => resolve(true)).then(() => console.log('resolve'));
-  // Promise.resolve().then(() => console.log('resolve'));
-  console.log('end');
+	console.log('start');
+	setTimeout(() => console.log('setTimeout'));
+	new Promise((resolve) => resolve(true)).then(() => console.log('resolve'));
+	// Promise.resolve().then(() => console.log('resolve'));
+	console.log('end');
 
-  // start, end, resolve, setTimeout
+	// start, end, resolve, setTimeout
 }
 
 // best question
 function promiseTrick6() {
-  const promise = new Promise((resolve, reject) => {
-    console.log(1);
-    setTimeout(() => {
-      console.log('timerStart');
-      resolve('success'); // pushed into the microtask queue
-      console.log('timerEnd');
-      // the current macro task is over, the JS engine checks the microtask queue again
-      // and executes microtasks in turn
-    }, 0); // the timer finishes immediately and its callback function is pushed into the microtask queue
-    console.log(2);
-  });
-  promise.then((res) => console.log(res)); // still in pending state (microtask queue is empty)
-  console.log(4);
-  // At this point, the first macro task ends, and the microtask queue is still empty,
-  // so the JS engine starts the next macro task.
+	const promise = new Promise((resolve, reject) => {
+		console.log(1);
+		setTimeout(() => {
+			console.log('timerStart');
+			resolve('success'); // pushed into the microtask queue
+			console.log('timerEnd');
+			// the current macro task is over, the JS engine checks the microtask queue again
+			// and executes microtasks in turn
+		}, 0); // the timer finishes immediately and its callback function is pushed into the microtask queue
+		console.log(2);
+	});
+	promise.then((res) => console.log(res)); // still in pending state (microtask queue is empty)
+	console.log(4);
+	// At this point, the first macro task ends, and the microtask queue is still empty,
+	// so the JS engine starts the next macro task.
 
-  // 1, 2, 4, timerStart, timerEnd, success
+	// 1, 2, 4, timerStart, timerEnd, success
 }
 
 function promiseTrick7() {
-  setTimeout(() => {
-    console.log('timer1');
-    setTimeout(() => {
-      console.log('timer3');
-    }, 0);
-  }, 0);
-  setTimeout(() => {
-    console.log('timer2');
-  }, 0);
-  console.log('start');
+	setTimeout(() => {
+		console.log('timer1');
+		setTimeout(() => {
+			console.log('timer3');
+		}, 0);
+	}, 0);
+	setTimeout(() => {
+		console.log('timer2');
+	}, 0);
+	console.log('start');
 
-  // start, timer1, timer2, timer3
+	// start, timer1, timer2, timer3
 }
 
 function promiseTrick8() {
-  const timer1 = setTimeout(() => {
-    console.log('timer1');
-    const promise1 = Promise.resolve().then(() => {
-      console.log('promise1');
-    });
-  }, 0);
-  const timer2 = setTimeout(() => {
-    console.log('timer2');
-  }, 0);
-  console.log('start');
+	const timer1 = setTimeout(() => {
+		console.log('timer1');
+		const promise1 = Promise.resolve().then(() => {
+			console.log('promise1');
+		});
+	}, 0);
+	const timer2 = setTimeout(() => {
+		console.log('timer2');
+	}, 0);
+	console.log('start');
 
-  // start, timer1, promise1, timer2
+	// start, timer1, promise1, timer2
 }
 
 function promiseTrick9() {
-  const promise1 = Promise.resolve().then(() => {
-    console.log('promise1');
-    const timer2 = setTimeout(() => {
-      console.log('timer2');
-    }, 0);
-  });
-  const timer1 = setTimeout(() => {
-    console.log('timer1');
-    const promise2 = Promise.resolve().then(() => {
-      console.log('promise2');
-    });
-  }, 0);
-  console.log('start');
+	const promise1 = Promise.resolve().then(() => {
+		console.log('promise1');
+		const timer2 = setTimeout(() => {
+			console.log('timer2');
+		}, 0);
+	});
+	const timer1 = setTimeout(() => {
+		console.log('timer1');
+		const promise2 = Promise.resolve().then(() => {
+			console.log('promise2');
+		});
+	}, 0);
+	console.log('start');
 
-  // start, promise1, timer1, promise2, timer2
+	// start, promise1, timer1, promise2, timer2
 }
 
 function promiseTrick10() {
-  const promise1 = new Promise((resolve, reject) => {
-    const timer1 = setTimeout(() => {
-      resolve('success');
-    }, 1000);
-  });
-  const promise2 = promise1.then(() => {
-    throw new Error('error!!!');
-  });
-  console.log('promise1', promise1);
-  console.log('promise2', promise2);
-  const timer2 = setTimeout(() => {
-    console.log('promise1', promise1);
-    console.log('promise2', promise2);
-  }, 2000);
+	const promise1 = new Promise((resolve, reject) => {
+		const timer1 = setTimeout(() => {
+			resolve('success');
+		}, 1000);
+	});
+	const promise2 = promise1.then(() => {
+		throw new Error('error!!!');
+	});
+	console.log('promise1', promise1);
+	console.log('promise2', promise2);
+	const timer2 = setTimeout(() => {
+		console.log('promise1', promise1);
+		console.log('promise2', promise2);
+	}, 2000);
 
-  // promise1: pending, promise2: pending, error, promise1: resolved, promise2: rejected
+	// promise1: pending, promise2: pending, error, promise1: resolved, promise2: rejected
 }

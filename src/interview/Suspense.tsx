@@ -1,4 +1,12 @@
-import React, { useState, useRef, useEffect, lazy, Suspense, ComponentType, Component } from 'react';
+import React, {
+	useState,
+	useRef,
+	useEffect,
+	lazy,
+	Suspense,
+	ComponentType,
+	Component,
+} from "react";
 
 // Suspense will automatically switch to fallback when children suspends, and back to children when the data is ready.
 // If fallback suspends while rendering, it will activate the closest parent Suspense boundary.
@@ -46,31 +54,33 @@ import React, { useState, useRef, useEffect, lazy, Suspense, ComponentType, Comp
 // There is currently no way to write an error boundary as a function component.
 // However, you don’t have to write the error boundary class yourself. For example, you can use react-error-boundary instead.
 
-const LazyComponent = lazy(() => delayPromise(import('./LazyComponent')));
+export const LOADING_DELAY = 2000;
+
+const LazyComponent = lazy(() => delayPromise(import("./LazyComponent")));
 
 export default function SuspenseExample() {
-  return (
-    <ErrorBoundary fallback={<p>ErrorBoundary fallback component</p>}>
-      <Suspense fallback={<LoadingScreen />}>
-        <LazyComponent />
-      </Suspense>
-    </ErrorBoundary>
-  );
+	return (
+		<ErrorBoundary fallback={<p>ErrorBoundary fallback component</p>}>
+			<Suspense fallback={<LoadingScreen />}>
+				<LazyComponent />
+			</Suspense>
+		</ErrorBoundary>
+	);
 }
 
 function LoadingScreen() {
-  return <div>Loading...</div>;
+	return <div>Loading...</div>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function delayPromise(promise: Promise<{ default: ComponentType<any> }>) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 2000);
-  }).then(() => promise);
+	return new Promise((resolve) => {
+		setTimeout(resolve, LOADING_DELAY);
+	}).then(() => promise);
 }
 
 type MySuspenseProps = React.PropsWithChildren<{
-  nothing?: string;
+	nothing?: string;
 }>;
 
 function MySuspense(props: MySuspenseProps) {}
@@ -81,38 +91,38 @@ function MySuspense(props: MySuspenseProps) {}
 // Use `componentDidCatch()` to log error information.
 
 type ErrorBoundaryProps = React.PropsWithChildren<{
-  fallback?: React.ReactNode;
+	fallback?: React.ReactNode;
 }>;
 type ErrorBoundaryState = {
-  hasError: boolean;
-  message?: string;
+	hasError: boolean;
+	message?: string;
 };
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  state: ErrorBoundaryState = {
-    hasError: false,
-  };
+	state: ErrorBoundaryState = {
+		hasError: false,
+	};
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, message: error.message };
-  }
+	static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+		return { hasError: true, message: error.message };
+	}
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    console.error('Uncaught error:', error, errorInfo);
-  }
+	componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+		console.error("Uncaught error:", error, errorInfo);
+	}
 
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div>
-          <h1>Something went wrong...</h1>
-          <h3>Description: {this.state.message ?? 'No description'}</h3>
-          {this.props.fallback}
-        </div>
-      );
-    }
-    return this.props.children;
-  }
+	render() {
+		if (this.state.hasError) {
+			return (
+				<div>
+					<h1>Something went wrong...</h1>
+					<h3>Description: {this.state.message ?? "No description"}</h3>
+					{this.props.fallback}
+				</div>
+			);
+		}
+		return this.props.children;
+	}
 }
 
 // How does suspense work under the hood?
@@ -138,39 +148,39 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 // Once available, read returns the data, and DataComponent renders it.
 
 const fetchData = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let data: any;
-  const promise = fetch('/api/data')
-    .then((response) => response.json())
-    .then((json) => {
-      data = json;
-    });
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let data: any;
+	const promise = fetch("/api/data")
+		.then((response) => response.json())
+		.then((json) => {
+			data = json;
+		});
 
-  return {
-    read() {
-      if (!data) {
-        throw promise;
-      }
-      return data;
-    },
-  };
+	return {
+		read() {
+			if (!data) {
+				throw promise;
+			}
+			return data;
+		},
+	};
 };
 
 const resource = fetchData();
 
 const App = () => (
-  <Suspense fallback={<p>Loading data...</p>}>
-    <DataComponent />
-  </Suspense>
+	<Suspense fallback={<p>Loading data...</p>}>
+		<DataComponent />
+	</Suspense>
 );
 
 const DataComponent = () => {
-  const data = resource.read();
-  return (
-    <div>
-      <h1>Data: {data.value}</h1>
-    </div>
-  );
+	const data = resource.read();
+	return (
+		<div>
+			<h1>Data: {data.value}</h1>
+		</div>
+	);
 };
 
 // You can also nest <Suspense> components to manage rendering order with Suspense:

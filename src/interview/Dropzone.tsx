@@ -1,6 +1,6 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { type FC, useRef, useState } from 'react';
 import { Box, List, ListItem } from '@mui/material';
-import { dropItemsToFilesAndFolders, FileWithPath } from './dropUtils';
+import { dropItemsToFilesAndFolders, type FileWithPath } from './dropUtils';
 
 export const Dropzone: FC = (props) => {
 	const [backgroundColor, setBackgroundColor] = useState('none');

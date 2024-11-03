@@ -1,7 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { type FC, type ChangeEventHandler, useState, startTransition } from 'react';
 import { DogSelector } from './DogSelector';
 import { DogPhoto } from './DogPhoto';
+import { DogPhotoSuspense } from './DogPhotoSuspense';
 import { DogPhotoLazy } from './DogPhotoLazy';
+import { DogsGeneratedHooksContainer } from './DogsGeneratedHooks';
 
 // Sample query:
 //
@@ -16,8 +18,14 @@ import { DogPhotoLazy } from './DogPhotoLazy';
 export const GraphQLDemo: FC = () => {
 	const [selectedDog, setSelectedDog] = useState<string | undefined>(undefined);
 
-	const onDogSelected: React.ChangeEventHandler<HTMLSelectElement> = ({ target }) => {
-		setSelectedDog(target.value);
+	const onDogSelected: ChangeEventHandler<HTMLSelectElement> = ({ target }) => {
+		// Error:
+		// A component suspended while responding to synchronous input.
+		// This will cause the UI to be replaced with a loading indicator.
+		// To fix, updates that suspend should be wrapped with `startTransition`.
+		startTransition(() => {
+			setSelectedDog(target.value);
+		});
 	};
 
 	return (
@@ -29,10 +37,14 @@ export const GraphQLDemo: FC = () => {
 						<DogPhoto breed={selectedDog} />
 					</p>
 					<p>
+						<DogPhotoSuspense breed={selectedDog} />
+					</p>
+					<p>
 						<DogPhotoLazy breed={selectedDog} />
 					</p>
 				</div>
 			)}
+			<DogsGeneratedHooksContainer />
 		</div>
 	);
 };

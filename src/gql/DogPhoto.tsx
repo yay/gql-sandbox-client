@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { NetworkStatus, useQuery } from '@apollo/client';
-import { DogPhotoData, DogPhotoProps } from './DogPhoto.types';
+import type { DogPhotoData, DogPhotoProps } from './DogPhoto.types';
 import { GET_DOG_PHOTO } from './DogPhotoQuery';
 
 /*
@@ -13,35 +13,28 @@ import { GET_DOG_PHOTO } from './DogPhotoQuery';
 export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
 	// [4] Passing variables. Query options.
 
-	const {
-		loading,
-		error,
-		data,
-		startPolling,
-		stopPolling,
-		refetch,
-		networkStatus,
-	} = useQuery<DogPhotoData>(GET_DOG_PHOTO, {
-		variables: { breed },
-		skip: false, // If `true`, the query is not executed. Not available/needed with `useLazyQuery`.
-		notifyOnNetworkStatusChange: true,
-		errorPolicy: 'none', // default value (treat all GraphQL errors as runtime errors)
+	const { loading, error, data, startPolling, stopPolling, refetch, networkStatus } =
+		useQuery<DogPhotoData>(GET_DOG_PHOTO, {
+			variables: { breed },
+			skip: false, // If `true`, the query is not executed. Not available/needed with `useLazyQuery`.
+			notifyOnNetworkStatusChange: true,
+			errorPolicy: 'none', // default value (treat all GraphQL errors as runtime errors)
 
-		// fetchPolicy: 'network-only', // don't check cache before making a network request
-		/**
-		 * By default, the useQuery hook checks the Apollo Client cache to see if all the data you requested
-		 * is already available locally. If all data is available locally, `useQuery` returns that data
-		 * and doesn't query your GraphQL server. This `cache-first` policy is Apollo Client's default fetch policy.
-		 */
+			// fetchPolicy: 'network-only', // don't check cache before making a network request
+			/**
+			 * By default, the useQuery hook checks the Apollo Client cache to see if all the data you requested
+			 * is already available locally. If all data is available locally, `useQuery` returns that data
+			 * and doesn't query your GraphQL server. This `cache-first` policy is Apollo Client's default fetch policy.
+			 */
 
-		// pollInterval: 500, // to start polling right away, without a call to `startPolling`
-		/**
-		 * Sometimes, you want to make sure that your query's cached data is up to date with your server's data.
-		 * Apollo Client supports two strategies for this: polling and refetching.
-		 * Polling provides near-real-time synchronization with your server by executing your query periodically
-		 * at a specified interval.
-		 */
-	});
+			// pollInterval: 500, // to start polling right away, without a call to `startPolling`
+			/**
+			 * Sometimes, you want to make sure that your query's cached data is up to date with your server's data.
+			 * Apollo Client supports two strategies for this: polling and refetching.
+			 * Polling provides near-real-time synchronization with your server by executing your query periodically
+			 * at a specified interval.
+			 */
+		});
 
 	/**
 	 * Refetching enables to refresh query results in response to a particular user action,
@@ -68,11 +61,7 @@ export const DogPhoto: FC<DogPhotoProps> = ({ breed }) => {
 
 	return (
 		<div>
-			<img
-				alt={breed}
-				src={data.dog.displayImage}
-				style={{ height: 100, width: 100 }}
-			/>
+			<img alt={breed} src={data.dog.displayImage} style={{ height: 100, width: 100 }} />
 			<p style={{ display: 'flex', gap: 5 }}>
 				<button
 					type="button"

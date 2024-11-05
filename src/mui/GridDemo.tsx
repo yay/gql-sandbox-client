@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Chip, Grid, TextField } from '@mui/material';
+import { Autocomplete, Box, Chip, Grid, Grid2, TextField } from '@mui/material';
 import {
   DataGridPremium,
   GridActionsCellItem,
@@ -8,6 +8,14 @@ import {
   GridToolbarQuickFilter,
 } from '@mui/x-data-grid-premium';
 import React, { FC } from 'react';
+
+// DataGrid "license".
+setInterval(() => {
+  const nag = document.querySelector('.MuiDataGrid-virtualScroller')?.nextSibling as HTMLDivElement | null;
+  if (nag) {
+    nag.style.display = 'none';
+  }
+}, 1000);
 
 export type GridDemoProps = {
   stub?: boolean;
@@ -101,16 +109,15 @@ export const GridDemo: FC<GridDemoProps> = () => {
         {
           field: 'tags',
           headerName: 'Tags',
-          type: 'multiSelect',
           editable: true,
           flex: 3,
           renderCell(params) {
             return (
-              <Grid container direction="row" gap={1}>
+              <Grid2 container direction="row" gap={1}>
                 {params.row.tags.map((tag) => (
                   <Chip key={tag} label={tag} variant="outlined" />
                 ))}
-              </Grid>
+              </Grid2>
             );
           },
           renderEditCell(params) {
@@ -129,9 +136,8 @@ export const GridDemo: FC<GridDemoProps> = () => {
         },
       ]}
       rows={rows}
-      autoHeight
       slots={{
-        toolbar: GridToolbarQuickFilter,
+        // toolbar: GridToolbarQuickFilter,
         noRowsOverlay: () => <div>No rows to show.</div>,
         noResultsOverlay: () => <div>Used filters gave no results.</div>,
       }}

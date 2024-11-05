@@ -17,14 +17,6 @@ import Uncontrolled from './interview/Uncontrolled';
 import { Dropzone } from './interview/Dropzone';
 import SuspenseExample from './interview/Suspense';
 
-// DataGrid "license".
-setInterval(() => {
-  const nag = document.querySelector('.MuiDataGrid-virtualScroller')?.nextSibling as HTMLDivElement | null;
-  if (nag) {
-    nag.style.display = 'none';
-  }
-}, 1000);
-
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
   cache: new InMemoryCache(),

@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Grid2 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -25,7 +25,7 @@ export function MUIDemo() {
 				// backgroundColor: (theme) => theme.palette.background.paper, // type-safe unlike the above
 			}}
 		>
-			<Grid container direction={'column'} rowGap={2}>
+			<Grid2 container flex={'content'} direction={'column'} rowGap={2}>
 				<LocalizationProvider dateAdapter={AdapterDayjs}>
 					<DatePicker label="Pick a date" value={date} onChange={(newDate) => setDate(newDate)} />
 				</LocalizationProvider>
@@ -34,7 +34,7 @@ export function MUIDemo() {
 				<Box width={'100%'} height={400}>
 					<AreaChart />
 				</Box>
-			</Grid>
+			</Grid2>
 		</Box>
 	);
 }

@@ -17,21 +17,15 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
-export type Actor = {
-  __typename?: 'Actor';
-  movies?: Maybe<Array<Maybe<Movie>>>;
-  name: Scalars['String']['output'];
-};
-
 export enum CacheControlScope {
   Private = 'PRIVATE',
   Public = 'PUBLIC',
 }
 
-export type Director = {
-  __typename?: 'Director';
-  movies?: Maybe<Array<Maybe<Movie>>>;
-  name: Scalars['String']['output'];
+export type CreateFolderInput = {
+  fileSystemId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  parentId: Scalars['String']['input'];
 };
 
 export type Dog = {
@@ -48,29 +42,27 @@ export type Finance = {
   crumb?: Maybe<Scalars['String']['output']>;
 };
 
+export type Folder = {
+  __typename?: 'Folder';
+  children?: Maybe<Array<Folder>>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  parentId?: Maybe<Scalars['String']['output']>;
+};
+
 export type Image = {
   __typename?: 'Image';
   id: Scalars['String']['output'];
   url: Scalars['String']['output'];
 };
 
-export type Movie = {
-  __typename?: 'Movie';
-  cast?: Maybe<Array<Maybe<Actor>>>;
-  director: Director;
-  title: Scalars['String']['output'];
-  year?: Maybe<Scalars['Int']['output']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  addMovie?: Maybe<Movie>;
+  createFolder?: Maybe<Folder>;
 };
 
-export type MutationAddMovieArgs = {
-  director: Scalars['String']['input'];
-  title: Scalars['String']['input'];
-  year?: InputMaybe<Scalars['Int']['input']>;
+export type MutationCreateFolderArgs = {
+  input: CreateFolderInput;
 };
 
 export type NetworkingList = {
@@ -185,9 +177,9 @@ export function useGetBoxerPhotoLazyQuery(
   return Apollo.useLazyQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
 }
 export function useGetBoxerPhotoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
 }
 export type GetBoxerPhotoQueryHookResult = ReturnType<typeof useGetBoxerPhotoQuery>;
@@ -233,9 +225,9 @@ export function useGetDogPhotoLazyQuery(
   return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
 }
 export function useGetDogPhotoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
 }
 export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
@@ -275,9 +267,9 @@ export function useGetDogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
   return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
 }
 export function useGetDogsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
 }
 export type GetDogsQueryHookResult = ReturnType<typeof useGetDogsQuery>;

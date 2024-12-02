@@ -1,101 +1,80 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css'; // Using MUI's <CssBaseline /> instead.
+import './index.css';
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { DesignProvider } from './Theme';
+import { ApolloClient, ApolloProvider, HttpLink, split } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { GraphQLDemo } from './gql/GraphQLDemo';
-import { MUIDemo } from './mui/MUIDemo';
-import { Interview } from './interview/Interview';
 import { AppLayout } from './AppLayout';
-import Memo from './interview/Memo';
-import NoJSX from './interview/NoJSX';
-import ProductList from './interview/ProductList';
-import EffectComponent from './interview/UseEffect';
-import Uncontrolled from './interview/Uncontrolled';
-import { Dropzone } from './interview/Dropzone';
-import SuspenseExample from './interview/Suspense';
+import { DesignProvider } from './Theme';
+import { clientCache } from './client-cache';
+import GraphQLPage from './gql';
+
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+
+const httpLink = new HttpLink({
+	uri: 'http://localhost:4000/graphql',
+});
+
+const wsLink = new GraphQLWsLink(
+	createClient({
+		url: 'ws://localhost:4000/subscriptions',
+		// connectionParams: {
+		// 	authToken: authToken,
+		// },
+	}),
+);
+
+const splitLink = split(
+	({ query }) => {
+		const definition = getMainDefinition(query);
+		return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+	},
+	wsLink,
+	httpLink,
+);
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  cache: new InMemoryCache(),
-  connectToDevTools: true,
+	uri: 'http://localhost:4000/graphql',
+	link: splitLink,
+	cache: clientCache,
+	devtools: {
+		enabled: true,
+	},
 });
 
 const routes = [
-  {
-    name: 'Interview',
-    path: 'interview',
-  },
-  {
-    name: 'MUI',
-    path: '/mui',
-  },
-  {
-    name: 'GraphQL',
-    path: '/gql',
-  },
+	{
+		name: 'GraphQL',
+		path: '/gql',
+	},
 ];
 
-// https://reactrouter.com/en/main/start/tutorial
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppLayout routes={routes} />,
-    children: [
-      {
-        path: 'mui',
-        element: <MUIDemo />,
-      },
-      {
-        path: 'gql',
-        element: <GraphQLDemo />,
-      },
-      {
-        path: 'interview',
-        element: <Interview />,
-        children: [
-          {
-            path: 'memo',
-            element: <Memo />,
-          },
-          {
-            path: 'no-jsx',
-            element: <NoJSX />,
-          },
-          {
-            path: 'product-list',
-            element: <ProductList />,
-          },
-          {
-            path: 'use-effect',
-            element: <EffectComponent />,
-          },
-          {
-            path: 'uncontrolled',
-            element: <Uncontrolled />,
-          },
-          {
-            path: 'dropzone',
-            element: <Dropzone />,
-          },
-          {
-            path: 'suspense',
-            element: <SuspenseExample />,
-          },
-        ],
-      },
-    ],
-  },
+	{
+		path: '/',
+		element: <AppLayout routes={routes} />,
+		children: [
+			{
+				path: 'gql',
+				element: <GraphQLPage />,
+			},
+		],
+	},
 ]);
 
+function Root(props: React.PropsWithChildren<{ strict?: boolean }>) {
+	const { strict, children } = props;
+	return strict ? <React.StrictMode>{children}</React.StrictMode> : children;
+}
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
-  <DesignProvider>
-    <ApolloProvider client={client}>
-      <RouterProvider router={router} />
-    </ApolloProvider>
-  </DesignProvider>
-  // </React.StrictMode>
+	<Root strict>
+		<DesignProvider>
+			<ApolloProvider client={client}>
+				<RouterProvider router={router} />
+			</ApolloProvider>
+		</DesignProvider>
+	</Root>,
 );

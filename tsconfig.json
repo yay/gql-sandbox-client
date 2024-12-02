@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "DisplayLocation.tsx"],
+  "include": ["src", "graphql.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

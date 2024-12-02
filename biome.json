@@ -1,0 +1,11 @@
+{
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"lineWidth": 120
+		}
+	},
+	"files": {
+		"ignore": ["src/generated/*.mts"]
+	}
+}

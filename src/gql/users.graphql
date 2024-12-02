@@ -1,0 +1,37 @@
+query getUsers {
+	users {
+		id
+		email
+		firstName
+		lastName
+		score
+	}
+}
+
+mutation createUser($input: CreateUserInput!) {
+	createUser(input: $input) {
+		id
+		email
+		firstName
+		lastName
+	}
+}
+
+mutation updateUser($input: UpdateUserInput!) {
+	updateUser(input: $input) {
+		id
+		firstName
+		lastName
+	}
+}
+
+mutation deleteUser($id: ID!) {
+	deleteUser(id: $id)
+}
+
+subscription scoreChanged($id: ID) {
+	scoreChanged(userId: $id) {
+		id
+		score
+	}
+}

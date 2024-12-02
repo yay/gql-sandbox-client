@@ -10,269 +10,343 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
-export enum CacheControlScope {
-  Private = 'PRIVATE',
-  Public = 'PUBLIC',
-}
-
-export type CreateFolderInput = {
-  fileSystemId: Scalars['ID']['input'];
-  name: Scalars['String']['input'];
-  parentId: Scalars['String']['input'];
-};
-
-export type Dog = {
-  __typename?: 'Dog';
-  breed: Scalars['String']['output'];
-  displayImage?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  images?: Maybe<Array<Maybe<Image>>>;
-  subbreeds?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-export type Finance = {
-  __typename?: 'Finance';
-  crumb?: Maybe<Scalars['String']['output']>;
-};
-
-export type Folder = {
-  __typename?: 'Folder';
-  children?: Maybe<Array<Folder>>;
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-  parentId?: Maybe<Scalars['String']['output']>;
-};
-
-export type Image = {
-  __typename?: 'Image';
-  id: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+export type CreateUserInput = {
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  score: Scalars['Int']['input'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createFolder?: Maybe<Folder>;
+  createUser: User;
+  deleteUser?: Maybe<Scalars['String']['output']>;
+  updateUser?: Maybe<User>;
 };
 
-export type MutationCreateFolderArgs = {
-  input: CreateFolderInput;
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
 };
 
-export type NetworkingList = {
-  __typename?: 'NetworkingList';
-  id?: Maybe<Scalars['ID']['output']>;
-  name: Scalars['String']['output'];
-  networkingListEntriesData: NetworkingListEntriesData;
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['ID']['input'];
 };
 
-export type NetworkingListNetworkingListEntriesDataArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  sort?: InputMaybe<Array<NetworkingListEntriesSort>>;
-};
 
-export type NetworkingListEntriesData = {
-  __typename?: 'NetworkingListEntriesData';
-  data?: Maybe<Array<NetworkingListEntry>>;
-  totalCount: Scalars['Int']['output'];
-};
-
-export type NetworkingListEntriesSort = {
-  field: NetworkingListEntriesSortField;
-  order: SortOrder;
-};
-
-export enum NetworkingListEntriesSortField {
-  CreatedDate = 'CREATED_DATE',
-  Location = 'LOCATION',
-  Name = 'NAME',
-}
-
-export type NetworkingListEntry = {
-  __typename?: 'NetworkingListEntry';
-  createdDate?: Maybe<Scalars['String']['output']>;
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
 };
 
 export type Query = {
   __typename?: 'Query';
-  dog?: Maybe<Dog>;
-  dogs?: Maybe<Array<Maybe<Dog>>>;
-  finance?: Maybe<Finance>;
+  uiMode: UiMode;
+  users?: Maybe<Array<User>>;
 };
 
-export type QueryDogArgs = {
-  breed: Scalars['String']['input'];
+export type ScoreChangedResult = {
+  __typename?: 'ScoreChangedResult';
+  id: Scalars['ID']['output'];
+  score: Scalars['Int']['output'];
 };
 
-export enum SortOrder {
-  Asc = 'ASC',
-  Desc = 'DESC',
+export type Subscription = {
+  __typename?: 'Subscription';
+  scoreChanged: ScoreChangedResult;
+};
+
+
+export type SubscriptionScoreChangedArgs = {
+  userId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export enum UiMode {
+  Dark = 'dark',
+  Light = 'light',
+  System = 'system'
 }
 
-export type GetBoxerPhotoQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetBoxerPhotoQuery = {
-  __typename?: 'Query';
-  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
+export type UpdateUserInput = {
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type GetDogPhotoQueryVariables = Exact<{
-  breed: Scalars['String']['input'];
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String']['output'];
+  firstName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  lastName: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
+};
+
+export type GetUiModeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUiModeQuery = { __typename?: 'Query', uiMode: UiMode };
+
+export type NewUserFragment = { __typename?: 'User', id: string, email: string, firstName: string, lastName: string };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, firstName: string, lastName: string, score: number }> | null };
+
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
 }>;
 
-export type GetDogPhotoQuery = {
-  __typename?: 'Query';
-  dog?: { __typename?: 'Dog'; id: string; displayImage?: string | null } | null;
-};
 
-export type GetDogsQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string } };
 
-export type GetDogsQuery = {
-  __typename?: 'Query';
-  dogs?: Array<{ __typename?: 'Dog'; id: string; breed: string } | null> | null;
-};
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
 
-export const GetBoxerPhotoDocument = gql`
-  query GetBoxerPhoto {
-    dog(breed: "boxer") {
-      id
-      displayImage
-    }
-  }
-`;
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', id: string, firstName: string, lastName: string } | null };
+
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser?: string | null };
+
+export type ScoreChangedSubscriptionVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type ScoreChangedSubscription = { __typename?: 'Subscription', scoreChanged: { __typename?: 'ScoreChangedResult', id: string, score: number } };
+
+export const NewUserFragmentDoc = gql`
+    fragment NewUser on User {
+  id
+  email
+  firstName
+  lastName
+}
+    `;
+export const GetUiModeDocument = gql`
+    query getUiMode {
+  uiMode @client
+}
+    `;
 
 /**
- * __useGetBoxerPhotoQuery__
+ * __useGetUiModeQuery__
  *
- * To run a query within a React component, call `useGetBoxerPhotoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBoxerPhotoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUiModeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUiModeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetBoxerPhotoQuery({
+ * const { data, loading, error } = useGetUiModeQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetBoxerPhotoQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
-}
-export function useGetBoxerPhotoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
-}
-export function useGetBoxerPhotoSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>(GetBoxerPhotoDocument, options);
-}
-export type GetBoxerPhotoQueryHookResult = ReturnType<typeof useGetBoxerPhotoQuery>;
-export type GetBoxerPhotoLazyQueryHookResult = ReturnType<typeof useGetBoxerPhotoLazyQuery>;
-export type GetBoxerPhotoSuspenseQueryHookResult = ReturnType<typeof useGetBoxerPhotoSuspenseQuery>;
-export type GetBoxerPhotoQueryResult = Apollo.QueryResult<GetBoxerPhotoQuery, GetBoxerPhotoQueryVariables>;
-export const GetDogPhotoDocument = gql`
-  query GetDogPhoto($breed: String!) {
-    dog(breed: $breed) {
-      id
-      displayImage
-    }
+export function useGetUiModeQuery(baseOptions?: Apollo.QueryHookOptions<GetUiModeQuery, GetUiModeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUiModeQuery, GetUiModeQueryVariables>(GetUiModeDocument, options);
+      }
+export function useGetUiModeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUiModeQuery, GetUiModeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUiModeQuery, GetUiModeQueryVariables>(GetUiModeDocument, options);
+        }
+export function useGetUiModeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUiModeQuery, GetUiModeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUiModeQuery, GetUiModeQueryVariables>(GetUiModeDocument, options);
+        }
+export type GetUiModeQueryHookResult = ReturnType<typeof useGetUiModeQuery>;
+export type GetUiModeLazyQueryHookResult = ReturnType<typeof useGetUiModeLazyQuery>;
+export type GetUiModeSuspenseQueryHookResult = ReturnType<typeof useGetUiModeSuspenseQuery>;
+export type GetUiModeQueryResult = Apollo.QueryResult<GetUiModeQuery, GetUiModeQueryVariables>;
+export const GetUsersDocument = gql`
+    query getUsers {
+  users {
+    id
+    email
+    firstName
+    lastName
+    score
   }
-`;
+}
+    `;
 
 /**
- * __useGetDogPhotoQuery__
+ * __useGetUsersQuery__
  *
- * To run a query within a React component, call `useGetDogPhotoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDogPhotoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetDogPhotoQuery({
+ * const { data, loading, error } = useGetUsersQuery({
  *   variables: {
- *      breed: // value for 'breed'
  *   },
  * });
  */
-export function useGetDogPhotoQuery(
-  baseOptions: Apollo.QueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables> &
-    ({ variables: GetDogPhotoQueryVariables; skip?: boolean } | { skip: boolean })
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export function useGetDogPhotoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export function useGetDogPhotoSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetDogPhotoQuery, GetDogPhotoQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetDogPhotoQuery, GetDogPhotoQueryVariables>(GetDogPhotoDocument, options);
-}
-export type GetDogPhotoQueryHookResult = ReturnType<typeof useGetDogPhotoQuery>;
-export type GetDogPhotoLazyQueryHookResult = ReturnType<typeof useGetDogPhotoLazyQuery>;
-export type GetDogPhotoSuspenseQueryHookResult = ReturnType<typeof useGetDogPhotoSuspenseQuery>;
-export type GetDogPhotoQueryResult = Apollo.QueryResult<GetDogPhotoQuery, GetDogPhotoQueryVariables>;
-export const GetDogsDocument = gql`
-  query GetDogs {
-    dogs {
-      id
-      breed
-    }
+export function useGetUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+      }
+export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        }
+export function useGetUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        }
+export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
+export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
+export type GetUsersSuspenseQueryHookResult = ReturnType<typeof useGetUsersSuspenseQuery>;
+export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
+export const CreateUserDocument = gql`
+    mutation createUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    id
+    email
+    firstName
+    lastName
   }
-`;
+}
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
 
 /**
- * __useGetDogsQuery__
+ * __useCreateUserMutation__
  *
- * To run a query within a React component, call `useGetDogsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useGetDogsQuery({
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGetDogsQuery(baseOptions?: Apollo.QueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const UpdateUserDocument = gql`
+    mutation updateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    id
+    firstName
+    lastName
+  }
 }
-export function useGetDogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const DeleteUserDocument = gql`
+    mutation deleteUser($id: ID!) {
+  deleteUser(id: $id)
 }
-export function useGetDogsSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetDogsQuery, GetDogsQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetDogsQuery, GetDogsQueryVariables>(GetDogsDocument, options);
+    `;
+export type DeleteUserMutationFn = Apollo.MutationFunction<DeleteUserMutation, DeleteUserMutationVariables>;
+
+/**
+ * __useDeleteUserMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteUserMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument, options);
+      }
+export type DeleteUserMutationHookResult = ReturnType<typeof useDeleteUserMutation>;
+export type DeleteUserMutationResult = Apollo.MutationResult<DeleteUserMutation>;
+export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<DeleteUserMutation, DeleteUserMutationVariables>;
+export const ScoreChangedDocument = gql`
+    subscription scoreChanged($id: ID) {
+  scoreChanged(userId: $id) {
+    id
+    score
+  }
 }
-export type GetDogsQueryHookResult = ReturnType<typeof useGetDogsQuery>;
-export type GetDogsLazyQueryHookResult = ReturnType<typeof useGetDogsLazyQuery>;
-export type GetDogsSuspenseQueryHookResult = ReturnType<typeof useGetDogsSuspenseQuery>;
-export type GetDogsQueryResult = Apollo.QueryResult<GetDogsQuery, GetDogsQueryVariables>;
+    `;
+
+/**
+ * __useScoreChangedSubscription__
+ *
+ * To run a query within a React component, call `useScoreChangedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useScoreChangedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useScoreChangedSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useScoreChangedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<ScoreChangedSubscription, ScoreChangedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<ScoreChangedSubscription, ScoreChangedSubscriptionVariables>(ScoreChangedDocument, options);
+      }
+export type ScoreChangedSubscriptionHookResult = ReturnType<typeof useScoreChangedSubscription>;
+export type ScoreChangedSubscriptionResult = Apollo.SubscriptionResult<ScoreChangedSubscription>;

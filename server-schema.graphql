@@ -1,0 +1,63 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  score: Int!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  deleteUser(id: ID!): String
+  updateUser(input: UpdateUserInput!): User
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type Query {
+  users(id: ID): [User!]
+  usersConnection(after: String, before: String, first: Int, last: Int): UserConnection
+}
+
+type ScoreChangedResult {
+  id: ID!
+  score: Int!
+}
+
+type Subscription {
+  scoreChanged(userId: ID): ScoreChangedResult!
+}
+
+input UpdateUserInput {
+  firstName: String
+  id: ID!
+  lastName: String
+}
+
+type User {
+  email: String!
+  firstName: String!
+  id: ID!
+  lastName: String!
+  score: Int!
+}
+
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User
+}

@@ -17,16 +17,49 @@ import {
 	type ScoreChangedSubscriptionVariables,
 	useCreateUserMutation,
 	useDeleteUserMutation,
+	useGetUsersConnectionQuery,
+	useGetUsersLazyQuery,
+	useGetUserLazyQuery,
 	useGetUsersSuspenseQuery,
 	useScoreChangedSubscription,
 	useUpdateUserMutation,
+	useGetUserInlineFragmentLazyQuery,
 } from '../generated/graphql';
 
 export default function Page() {
 	const theme = useTheme();
 
-	const { data: userData, refetch, subscribeToMore } = useGetUsersSuspenseQuery();
-	const users = userData?.users;
+	// const { data: userData, refetch, subscribeToMore } = useGetUsersSuspenseQuery();
+	const [
+		fetchSpecificUser,
+		{ called: fetchSpecificUserCalled, loading: fetchSpecificUserLoading, data: fetchSpecificUserData },
+	] = useGetUserLazyQuery();
+
+	const [
+		fetchSpecificUserInline,
+		{
+			called: fetchSpecificUserInlineCalled,
+			loading: fetchSpecificUserInlineLoading,
+			data: fetchSpecificUserInlineData,
+		},
+	] = useGetUserInlineFragmentLazyQuery();
+
+	const {
+		data: usersConnectionData,
+		refetch,
+		fetchMore,
+		subscribeToMore,
+	} = useGetUsersConnectionQuery({
+		variables: {
+			after: null,
+			first: 10,
+			before: null,
+			last: 10,
+		},
+	});
+
+	const edges = usersConnectionData?.usersConnection?.edges;
+	const users = edges?.map((edge) => edge?.node);
 
 	const firstUserId = users?.[0].id;
 	useEffect(() => {
@@ -160,10 +193,38 @@ export default function Page() {
 	return (
 		<Suspense>
 			<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-				<Box padding={1} sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+				<Box padding={1} sx={{ display: 'flex', borderBottom: `1px solid ${theme.palette.divider}`, gap: 1 }}>
 					<Button variant={'contained'} onClick={refetchUsers}>
 						Refetch Users
 					</Button>
+					<Button
+						variant={'contained'}
+						onClick={() =>
+							fetchSpecificUser({
+								variables: {
+									id: '3',
+								},
+							})
+						}
+					>
+						Fetch user #3
+					</Button>
+					{fetchSpecificUserCalled && !fetchSpecificUserLoading ? fetchSpecificUserData?.users?.[0].email : undefined}
+					<Button
+						variant={'contained'}
+						onClick={() =>
+							fetchSpecificUserInline({
+								variables: {
+									id: '3',
+								},
+							})
+						}
+					>
+						Fetch user inline #3
+					</Button>
+					{fetchSpecificUserInlineCalled && !fetchSpecificUserInlineLoading
+						? fetchSpecificUserInlineData?.users?.[0].email
+						: undefined}
 				</Box>
 				<List sx={{ padding: 0, flex: '1', overflowY: 'auto' }}>
 					{users.map((user) => {

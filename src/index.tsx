@@ -9,6 +9,7 @@ import { AppLayout } from './AppLayout';
 import { DesignProvider } from './Theme';
 import { clientCache } from './client-cache';
 import GraphQLPage from './gql';
+import PaginatedGraphQLPage from './gql/pagination';
 
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
@@ -48,6 +49,12 @@ const routes = [
 	{
 		name: 'GraphQL',
 		path: '/gql',
+		element: <GraphQLPage />,
+	},
+	{
+		name: 'GraphQL Pagination',
+		path: '/gql-pagination',
+		element: <PaginatedGraphQLPage />,
 	},
 ];
 
@@ -55,12 +62,7 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <AppLayout routes={routes} />,
-		children: [
-			{
-				path: 'gql',
-				element: <GraphQLPage />,
-			},
-		],
+		children: routes,
 	},
 ]);
 

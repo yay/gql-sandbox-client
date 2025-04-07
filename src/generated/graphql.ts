@@ -46,10 +46,32 @@ export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  endCursor?: Maybe<Scalars['String']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPreviousPage: Scalars['Boolean']['output'];
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   uiMode: UiMode;
   users?: Maybe<Array<User>>;
+  usersConnection?: Maybe<UserConnection>;
+};
+
+
+export type QueryUsersArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryUsersConnectionArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ScoreChangedResult = {
@@ -89,6 +111,18 @@ export type User = {
   score: Scalars['Int']['output'];
 };
 
+export type UserConnection = {
+  __typename?: 'UserConnection';
+  edges?: Maybe<Array<Maybe<UserEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type UserEdge = {
+  __typename?: 'UserEdge';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<User>;
+};
+
 export type GetUiModeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -100,6 +134,32 @@ export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, firstName: string, lastName: string, score: number }> | null };
+
+export type GetUserQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', email: string, firstName: string, lastName: string }> | null };
+
+export type GetUserInlineFragmentQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetUserInlineFragmentQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', firstName: string, lastName: string, email: string }> | null };
+
+export type NamePartsFragment = { __typename?: 'User', firstName: string, lastName: string };
+
+export type GetUsersConnectionQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetUsersConnectionQuery = { __typename?: 'Query', usersConnection?: { __typename?: 'UserConnection', edges?: Array<{ __typename?: 'UserEdge', cursor: string, node?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, score: number } | null } | null> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
@@ -133,6 +193,12 @@ export const NewUserFragmentDoc = gql`
     fragment NewUser on User {
   id
   email
+  firstName
+  lastName
+}
+    `;
+export const NamePartsFragmentDoc = gql`
+    fragment NameParts on User {
   firstName
   lastName
 }
@@ -217,6 +283,149 @@ export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
 export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
 export type GetUsersSuspenseQueryHookResult = ReturnType<typeof useGetUsersSuspenseQuery>;
 export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
+export const GetUserDocument = gql`
+    query getUser($id: ID!) {
+  users(id: $id) {
+    ...NameParts
+    email
+  }
+}
+    ${NamePartsFragmentDoc}`;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables> & ({ variables: GetUserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export function useGetUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const GetUserInlineFragmentDocument = gql`
+    query getUserInlineFragment($id: ID!) {
+  users(id: $id) {
+    ... on User {
+      firstName
+      lastName
+    }
+    email
+  }
+}
+    `;
+
+/**
+ * __useGetUserInlineFragmentQuery__
+ *
+ * To run a query within a React component, call `useGetUserInlineFragmentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserInlineFragmentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserInlineFragmentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserInlineFragmentQuery(baseOptions: Apollo.QueryHookOptions<GetUserInlineFragmentQuery, GetUserInlineFragmentQueryVariables> & ({ variables: GetUserInlineFragmentQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserInlineFragmentQuery, GetUserInlineFragmentQueryVariables>(GetUserInlineFragmentDocument, options);
+      }
+export function useGetUserInlineFragmentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserInlineFragmentQuery, GetUserInlineFragmentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserInlineFragmentQuery, GetUserInlineFragmentQueryVariables>(GetUserInlineFragmentDocument, options);
+        }
+export function useGetUserInlineFragmentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserInlineFragmentQuery, GetUserInlineFragmentQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserInlineFragmentQuery, GetUserInlineFragmentQueryVariables>(GetUserInlineFragmentDocument, options);
+        }
+export type GetUserInlineFragmentQueryHookResult = ReturnType<typeof useGetUserInlineFragmentQuery>;
+export type GetUserInlineFragmentLazyQueryHookResult = ReturnType<typeof useGetUserInlineFragmentLazyQuery>;
+export type GetUserInlineFragmentSuspenseQueryHookResult = ReturnType<typeof useGetUserInlineFragmentSuspenseQuery>;
+export type GetUserInlineFragmentQueryResult = Apollo.QueryResult<GetUserInlineFragmentQuery, GetUserInlineFragmentQueryVariables>;
+export const GetUsersConnectionDocument = gql`
+    query getUsersConnection($first: Int, $after: String, $last: Int, $before: String) {
+  usersConnection(first: $first, after: $after, last: $last, before: $before) {
+    edges {
+      cursor
+      node {
+        id
+        email
+        firstName
+        lastName
+        score
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUsersConnectionQuery__
+ *
+ * To run a query within a React component, call `useGetUsersConnectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersConnectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUsersConnectionQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
+ *   },
+ * });
+ */
+export function useGetUsersConnectionQuery(baseOptions?: Apollo.QueryHookOptions<GetUsersConnectionQuery, GetUsersConnectionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersConnectionQuery, GetUsersConnectionQueryVariables>(GetUsersConnectionDocument, options);
+      }
+export function useGetUsersConnectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersConnectionQuery, GetUsersConnectionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersConnectionQuery, GetUsersConnectionQueryVariables>(GetUsersConnectionDocument, options);
+        }
+export function useGetUsersConnectionSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUsersConnectionQuery, GetUsersConnectionQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUsersConnectionQuery, GetUsersConnectionQueryVariables>(GetUsersConnectionDocument, options);
+        }
+export type GetUsersConnectionQueryHookResult = ReturnType<typeof useGetUsersConnectionQuery>;
+export type GetUsersConnectionLazyQueryHookResult = ReturnType<typeof useGetUsersConnectionLazyQuery>;
+export type GetUsersConnectionSuspenseQueryHookResult = ReturnType<typeof useGetUsersConnectionSuspenseQuery>;
+export type GetUsersConnectionQueryResult = Apollo.QueryResult<GetUsersConnectionQuery, GetUsersConnectionQueryVariables>;
 export const CreateUserDocument = gql`
     mutation createUser($input: CreateUserInput!) {
   createUser(input: $input) {

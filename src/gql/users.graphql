@@ -8,6 +8,54 @@ query getUsers {
 	}
 }
 
+query getUser($id: ID!) {
+	users(id: $id) {
+		...NameParts
+		email
+	}
+}
+
+query getUserInlineFragment($id: ID!) {
+	users(id: $id) {
+		... on User {
+			firstName
+			lastName
+		}
+		email
+	}
+}
+
+fragment NameParts on User {
+	firstName
+	lastName
+}
+
+query getUsersConnection(
+	$first: Int
+	$after: String
+	$last: Int
+	$before: String
+) {
+	usersConnection(first: $first, after: $after, last: $last, before: $before) {
+		edges {
+			cursor
+			node {
+				id
+				email
+				firstName
+				lastName
+				score
+			}
+		}
+		pageInfo {
+			endCursor
+			hasNextPage
+			hasPreviousPage
+			startCursor
+		}
+	}
+}
+
 mutation createUser($input: CreateUserInput!) {
 	createUser(input: $input) {
 		id

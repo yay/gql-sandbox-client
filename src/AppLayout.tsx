@@ -61,7 +61,7 @@ export const AppLayout: FC<AppLayoutProps> = ({ routes }) => {
 	};
 
 	return (
-		<Box sx={{ display: 'flex', height: '100%' }}>
+		<Box sx={{ display: 'flex', height: '100vh' }}>
 			<CssBaseline />
 			<Toolbar
 				sx={{
@@ -120,7 +120,7 @@ export const AppLayout: FC<AppLayoutProps> = ({ routes }) => {
 					<NavList routes={routes} />
 				</Drawer>
 			</Box>
-			<Box component="main" sx={{ flexGrow: 1, marginTop: `${appBarHeight}px` }}>
+			<Box component="main" sx={{ flexGrow: 1, marginTop: `${appBarHeight}px`, overflowX: 'auto' }}>
 				<Outlet />
 			</Box>
 		</Box>

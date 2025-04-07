@@ -1,6 +1,6 @@
-import { InMemoryCache, type ReactiveVar, makeVar } from '@apollo/client';
-import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
-import { UiMode } from './generated/graphql';
+import { InMemoryCache, type ReactiveVar, makeVar } from "@apollo/client";
+import { LocalStorageWrapper, persistCache } from "apollo3-cache-persist";
+import { UiMode } from "./generated/graphql";
 
 export const clientCache: InMemoryCache = new InMemoryCache({
 	typePolicies: {

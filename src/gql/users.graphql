@@ -1,4 +1,4 @@
-query getUsers {
+query GetUsers {
 	users {
 		id
 		email
@@ -8,14 +8,7 @@ query getUsers {
 	}
 }
 
-query getUser($id: ID!) {
-	users(id: $id) {
-		...NameParts
-		email
-	}
-}
-
-query getUserInlineFragment($id: ID!) {
+query GetUserInlineFragment($id: ID!) {
 	users(id: $id) {
 		... on User {
 			firstName
@@ -23,11 +16,6 @@ query getUserInlineFragment($id: ID!) {
 		}
 		email
 	}
-}
-
-fragment NameParts on User {
-	firstName
-	lastName
 }
 
 query getUsersConnection(
